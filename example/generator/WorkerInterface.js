@@ -20,96 +20,89 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    'text!./generatorWorker.js',
-    'uuid'
-], function (
-    workerText,
-    uuid
-) {
 
-    var workerBlob = new Blob(
-        [workerText],
-        {type: 'application/javascript'}
-    );
-    var workerUrl = URL.createObjectURL(workerBlob);
+import workerText from 'raw-loader!./generatorWorker.js';
+import uuid from 'uuid';
 
-    function WorkerInterface() {
-        this.worker = new Worker(workerUrl);
-        this.worker.onmessage = this.onMessage.bind(this);
-        this.callbacks = {};
+
+var workerBlob = new Blob(
+    [workerText],
+    {type: 'application/javascript'}
+);
+var workerUrl = URL.createObjectURL(workerBlob);
+
+function WorkerInterface() {
+    this.worker = new Worker(workerUrl);
+    this.worker.onmessage = this.onMessage.bind(this);
+    this.callbacks = {};
+}
+
+WorkerInterface.prototype.onMessage = function (message) {
+    message = message.data;
+    var callback = this.callbacks[message.id];
+    if (callback) {
+        if (callback(message)) {
+            delete this.callbacks[message.id];
+        }
+    }
+};
+
+WorkerInterface.prototype.dispatch = function (request, data, callback) {
+    var message = {
+        request: request,
+        data: data,
+        id: uuid()
+    };
+
+    if (callback) {
+        this.callbacks[message.id] = callback;
     }
 
-    WorkerInterface.prototype.onMessage = function (message) {
-        message = message.data;
-        var callback = this.callbacks[message.id];
-        if (callback) {
-            if (callback(message)) {
-                delete this.callbacks[message.id];
-            }
+    this.worker.postMessage(message);
+
+    return message.id;
+};
+
+WorkerInterface.prototype.request = function (request) {
+    var deferred = {};
+    var promise = new Promise(function (resolve, reject) {
+        deferred.resolve = resolve;
+        deferred.reject = reject;
+    });
+
+    function callback(message) {
+        if (message.error) {
+            deferred.reject(message.error);
+        } else {
+            deferred.resolve(message.data);
         }
-    };
+        return true;
+    }
 
-    WorkerInterface.prototype.dispatch = function (request, data, callback) {
-        var message = {
-            request: request,
-            data: data,
-            id: uuid()
-        };
+    this.dispatch('request', request, callback);
 
-        if (callback) {
-            this.callbacks[message.id] = callback;
-        }
+    return promise;
+};
 
-        this.worker.postMessage(message);
+WorkerInterface.prototype.subscribe = function (request, cb) {
+    var isCancelled = false;
 
-        return message.id;
-    };
-
-    WorkerInterface.prototype.request = function (request) {
-        var deferred = {};
-        var promise = new Promise(function (resolve, reject) {
-            deferred.resolve = resolve;
-            deferred.reject = reject;
-        });
-
-        function callback(message) {
-            if (message.error) {
-                deferred.reject(message.error);
-            } else {
-                deferred.resolve(message.data);
-            }
+    var callback = function (message) {
+        if (isCancelled) {
             return true;
         }
-
-        this.dispatch('request', request, callback);
-
-        return promise;
+        cb(message.data);
     };
 
-    WorkerInterface.prototype.subscribe = function (request, cb) {
-        var isCancelled = false;
+    var messageId = this.dispatch('subscribe', request, callback)
 
-        var callback = function (message) {
-            if (isCancelled) {
-                return true;
-            }
-            cb(message.data);
-        };
+    return function () {
+        isCancelled = true;
+        this.dispatch('unsubscribe', {
+            id: messageId
+        });
+    }.bind(this);
 
-        var messageId = this.dispatch('subscribe', request, callback)
+};
 
-        return function () {
-            isCancelled = true;
-            this.dispatch('unsubscribe', {
-                id: messageId
-            });
-        }.bind(this);
-
-    };
-
-
-
-
-    return WorkerInterface;
-});
+export default WorkerInterface;
