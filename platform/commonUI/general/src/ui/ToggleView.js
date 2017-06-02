@@ -20,7 +20,7 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-import labelTemplate from 'raw-loader!../../res/templates/tree/toggle.html';
+import toggleTemplate from 'raw-loader!../../res/templates/tree/toggle.html';
 import $ from 'webpack-zepto';
 
 function ToggleView(state) {
