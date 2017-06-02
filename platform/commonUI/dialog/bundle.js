@@ -20,85 +20,71 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/DialogService",
-    "./src/OverlayService",
-    "text!./res/templates/overlay-dialog.html",
-    "text!./res/templates/overlay-options.html",
-    "text!./res/templates/dialog.html",
-    "text!./res/templates/overlay-blocking-message.html",
-    "text!./res/templates/message.html",
-    "text!./res/templates/overlay-message-list.html",
-    "text!./res/templates/overlay.html",
-    'legacyRegistry'
-], function (
-    DialogService,
-    OverlayService,
-    overlayDialogTemplate,
-    overlayOptionsTemplate,
-    dialogTemplate,
-    overlayBlockingMessageTemplate,
-    messageTemplate,
-    overlayMessageListTemplate,
-    overlayTemplate,
-    legacyRegistry
-) {
+import DialogService from './src/DialogService';
+import OverlayService from './src/OverlayService';
+import overlayDialogTemplate from 'raw-loader!./res/templates/overlay-dialog.html';
+import overlayOptionsTemplate from 'raw-loader!./res/templates/overlay-options.html';
+import dialogTemplate from 'raw-loader!./res/templates/dialog.html';
+import overlayBlockingMessageTemplate from 'raw-loader!./res/templates/overlay-blocking-message.html';
+import messageTemplate from 'raw-loader!./res/templates/message.html';
+import overlayMessageListTemplate from 'raw-loader!./res/templates/overlay-message-list.html';
+import overlayTemplate from 'raw-loader!./res/templates/overlay.html';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/commonUI/dialog", {
-        "extensions": {
-            "services": [
-                {
-                    "key": "dialogService",
-                    "implementation": DialogService,
-                    "depends": [
-                        "overlayService",
-                        "$q",
-                        "$log",
-                        "$document"
-                    ]
-                },
-                {
-                    "key": "overlayService",
-                    "implementation": OverlayService,
-                    "depends": [
-                        "$document",
-                        "$compile",
-                        "$rootScope"
-                    ]
-                }
-            ],
-            "templates": [
-                {
-                    "key": "overlay-dialog",
-                    "template": overlayDialogTemplate
-                },
-                {
-                    "key": "overlay-options",
-                    "template": overlayOptionsTemplate
-                },
-                {
-                    "key": "form-dialog",
-                    "template": dialogTemplate
-                },
-                {
-                    "key": "overlay-blocking-message",
-                    "template": overlayBlockingMessageTemplate
-                },
-                {
-                    "key": "message",
-                    "template": messageTemplate
-                },
-                {
-                    "key": "overlay-message-list",
-                    "template": overlayMessageListTemplate
-                }
-            ],
-            "containers": [
-                {
-                    "key": "overlay",
-                    "template": overlayTemplate
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/commonUI/dialog", {
+    "extensions": {
+        "services": [
+            {
+                "key": "dialogService",
+                "implementation": DialogService,
+                "depends": [
+                    "overlayService",
+                    "$q",
+                    "$log",
+                    "$document"
+                ]
+            },
+            {
+                "key": "overlayService",
+                "implementation": OverlayService,
+                "depends": [
+                    "$document",
+                    "$compile",
+                    "$rootScope"
+                ]
+            }
+        ],
+        "templates": [
+            {
+                "key": "overlay-dialog",
+                "template": overlayDialogTemplate
+            },
+            {
+                "key": "overlay-options",
+                "template": overlayOptionsTemplate
+            },
+            {
+                "key": "form-dialog",
+                "template": dialogTemplate
+            },
+            {
+                "key": "overlay-blocking-message",
+                "template": overlayBlockingMessageTemplate
+            },
+            {
+                "key": "message",
+                "template": messageTemplate
+            },
+            {
+                "key": "overlay-message-list",
+                "template": overlayMessageListTemplate
+            }
+        ],
+        "containers": [
+            {
+                "key": "overlay",
+                "template": overlayTemplate
+            }
+        ]
+    }
 });

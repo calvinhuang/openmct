@@ -20,26 +20,20 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/PersistenceAggregator",
-    'legacyRegistry'
-], function (
-    PersistenceAggregator,
-    legacyRegistry
-) {
+import PersistenceAggregator from './src/PersistenceAggregator';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/persistence/aggregator", {
-        "extensions": {
-            "components": [
-                {
-                    "provides": "persistenceService",
-                    "type": "aggregator",
-                    "depends": [
-                        "$q"
-                    ],
-                    "implementation": PersistenceAggregator
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/persistence/aggregator", {
+    "extensions": {
+        "components": [
+            {
+                "provides": "persistenceService",
+                "type": "aggregator",
+                "depends": [
+                    "$q"
+                ],
+                "implementation": PersistenceAggregator
+            }
+        ]
+    }
 });

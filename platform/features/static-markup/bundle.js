@@ -20,37 +20,30 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
+import markupTemplate from 'raw-loader!./res/markup.html';
+import legacyRegistry from 'legacyRegistry';
 
-    "text!./res/markup.html",
-    'legacyRegistry'
-], function (
 
-    markupTemplate,
-    legacyRegistry
-) {
-
-    legacyRegistry.register("platform/features/static-markup", {
-        "extensions": {
-            "types": [
-                {
-                    "key": "static.markup",
-                    "name": "Static Markup",
-                    "cssClass": "icon-pencil",
-                    "description": "Static markup sandbox",
-                    "features": [
-                        "creation"
-                    ]
-                }
-            ],
-            "views": [
-                {
-                    "template": markupTemplate,
-                    "name": "Static Markup",
-                    "type": "static.markup",
-                    "key": "static.markup"
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/features/static-markup", {
+    "extensions": {
+        "types": [
+            {
+                "key": "static.markup",
+                "name": "Static Markup",
+                "cssClass": "icon-pencil",
+                "description": "Static markup sandbox",
+                "features": [
+                    "creation"
+                ]
+            }
+        ],
+        "views": [
+            {
+                "template": markupTemplate,
+                "name": "Static Markup",
+                "type": "static.markup",
+                "key": "static.markup"
+            }
+        ]
+    }
 });

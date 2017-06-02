@@ -19,27 +19,19 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    "./src/ExamplePolicy",
-    'legacyRegistry'
-], function (
-    ExamplePolicy,
-    legacyRegistry
-) {
-    "use strict";
+import ExamplePolicy from './src/ExamplePolicy';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("example/policy", {
-        "name": "Example Policy",
-        "description": "Provides an example of using policies to prohibit actions.",
-        "extensions": {
-            "policies": [
-                {
-                    "implementation": ExamplePolicy,
-                    "category": "action"
-                }
-            ]
-        }
-    });
+legacyRegistry.register("example/policy", {
+    "name": "Example Policy",
+    "description": "Provides an example of using policies to prohibit actions.",
+    "extensions": {
+        "policies": [
+            {
+                "implementation": ExamplePolicy,
+                "category": "action"
+            }
+        ]
+    }
 });

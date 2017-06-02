@@ -19,42 +19,34 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
+import LocalStoragePersistenceProvider from './src/LocalStoragePersistenceProvider';
+import LocalStorageIndicator from './src/LocalStorageIndicator';
+import legacyRegistry from 'legacyRegistry';
 
-define([
-    "./src/LocalStoragePersistenceProvider",
-    "./src/LocalStorageIndicator",
-    'legacyRegistry'
-], function (
-    LocalStoragePersistenceProvider,
-    LocalStorageIndicator,
-    legacyRegistry
-) {
-
-    legacyRegistry.register("platform/persistence/local", {
-        "extensions": {
-            "components": [
-                {
-                    "provides": "persistenceService",
-                    "type": "provider",
-                    "implementation": LocalStoragePersistenceProvider,
-                    "depends": [
-                        "$window",
-                        "$q",
-                        "PERSISTENCE_SPACE"
-                    ]
-                }
-            ],
-            "constants": [
-                {
-                    "key": "PERSISTENCE_SPACE",
-                    "value": "mct"
-                }
-            ],
-            "indicators": [
-                {
-                    "implementation": LocalStorageIndicator
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/persistence/local", {
+    "extensions": {
+        "components": [
+            {
+                "provides": "persistenceService",
+                "type": "provider",
+                "implementation": LocalStoragePersistenceProvider,
+                "depends": [
+                    "$window",
+                    "$q",
+                    "PERSISTENCE_SPACE"
+                ]
+            }
+        ],
+        "constants": [
+            {
+                "key": "PERSISTENCE_SPACE",
+                "value": "mct"
+            }
+        ],
+        "indicators": [
+            {
+                "implementation": LocalStorageIndicator
+            }
+        ]
+    }
 });

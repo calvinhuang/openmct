@@ -20,26 +20,20 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/WorkerService",
-    'legacyRegistry'
-], function (
-    WorkerService,
-    legacyRegistry
-) {
+import WorkerService from './src/WorkerService';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/execution", {
-        "extensions": {
-            "services": [
-                {
-                    "key": "workerService",
-                    "implementation": WorkerService,
-                    "depends": [
-                        "$window",
-                        "workers[]"
-                    ]
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/execution", {
+    "extensions": {
+        "services": [
+            {
+                "key": "workerService",
+                "implementation": WorkerService,
+                "depends": [
+                    "$window",
+                    "workers[]"
+                ]
+            }
+        ]
+    }
 });

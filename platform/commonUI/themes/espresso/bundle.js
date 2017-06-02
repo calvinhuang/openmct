@@ -20,30 +20,23 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
+import legacyRegistry from 'legacyRegistry';
 
-    'legacyRegistry'
-], function (
-
-    legacyRegistry
-) {
-
-    legacyRegistry.register("platform/commonUI/themes/espresso", {
-        "name": "Espresso",
-        "description": "Espresso theme: dark and rich",
-        "extensions": {
-            "stylesheets": [
-                {
-                    "stylesheetUrl": "css/theme-espresso.css",
-                    "priority": 1000
-                }
-            ],
-            "constants": [
-                {
-                    "key": "THEME",
-                    "value": "espresso"
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/commonUI/themes/espresso", {
+    "name": "Espresso",
+    "description": "Espresso theme: dark and rich",
+    "extensions": {
+        "stylesheets": [
+            {
+                "stylesheetUrl": "css/theme-espresso.css",
+                "priority": 1000
+            }
+        ],
+        "constants": [
+            {
+                "key": "THEME",
+                "value": "espresso"
+            }
+        ]
+    }
 });

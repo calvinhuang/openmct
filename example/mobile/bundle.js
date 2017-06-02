@@ -19,27 +19,17 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
+import legacyRegistry from 'legacyRegistry';
 
-define([
-    
-    'legacyRegistry'
-], function (
-    
-    legacyRegistry
-) {
-    "use strict";
-
-    legacyRegistry.register("example/mobile", {
-        "name": "Mobile",
-        "description": "Allows elements with pertinence to mobile usage and development",
-        "extensions": {
-            "stylesheets": [
-                {
-                    "stylesheetUrl": "css/mobile-example.css",
-                    "priority": "mandatory"
-                }
-            ]
-        }
-    });
+legacyRegistry.register("example/mobile", {
+    "name": "Mobile",
+    "description": "Allows elements with pertinence to mobile usage and development",
+    "extensions": {
+        "stylesheets": [
+            {
+                "stylesheetUrl": "css/mobile-example.css",
+                "priority": "mandatory"
+            }
+        ]
+    }
 });

@@ -19,64 +19,51 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    "./src/SomeProvider",
-    "./src/SomeOtherProvider",
-    "./src/SomeDecorator",
-    "./src/SomeOtherDecorator",
-    "./src/SomeAggregator",
-    "./src/SomeOtherExample",
-    'legacyRegistry'
-], function (
-    SomeProvider,
-    SomeOtherProvider,
-    SomeDecorator,
-    SomeOtherDecorator,
-    SomeAggregator,
-    SomeOtherExample,
-    legacyRegistry
-) {
-    "use strict";
+import SomeProvider from './src/SomeProvider';
+import SomeOtherProvider from './src/SomeOtherProvider';
+import SomeDecorator from './src/SomeDecorator';
+import SomeOtherDecorator from './src/SomeOtherDecorator';
+import SomeAggregator from './src/SomeAggregator';
+import SomeOtherExample from './src/SomeOtherExample';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("example/composite", {
-        "extensions": {
-            "components": [
-                {
-                    "implementation": SomeProvider,
-                    "provides": "someService",
-                    "type": "provider"
-                },
-                {
-                    "implementation": SomeOtherProvider,
-                    "provides": "someService",
-                    "type": "provider"
-                },
-                {
-                    "implementation": SomeDecorator,
-                    "provides": "someService",
-                    "type": "decorator"
-                },
-                {
-                    "implementation": SomeOtherDecorator,
-                    "provides": "someService",
-                    "type": "decorator"
-                },
-                {
-                    "implementation": SomeAggregator,
-                    "provides": "someService",
-                    "type": "aggregator"
-                }
-            ],
-            "examples": [
-                {
-                    "implementation": SomeOtherExample,
-                    "depends": [
-                        "someService"
-                    ]
-                }
-            ]
-        }
-    });
+legacyRegistry.register("example/composite", {
+    "extensions": {
+        "components": [
+            {
+                "implementation": SomeProvider,
+                "provides": "someService",
+                "type": "provider"
+            },
+            {
+                "implementation": SomeOtherProvider,
+                "provides": "someService",
+                "type": "provider"
+            },
+            {
+                "implementation": SomeDecorator,
+                "provides": "someService",
+                "type": "decorator"
+            },
+            {
+                "implementation": SomeOtherDecorator,
+                "provides": "someService",
+                "type": "decorator"
+            },
+            {
+                "implementation": SomeAggregator,
+                "provides": "someService",
+                "type": "aggregator"
+            }
+        ],
+        "examples": [
+            {
+                "implementation": SomeOtherExample,
+                "depends": [
+                    "someService"
+                ]
+            }
+        ]
+    }
 });

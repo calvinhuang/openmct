@@ -19,36 +19,28 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    "./src/BrowserPersistenceProvider",
-    'legacyRegistry'
-], function (
-    BrowserPersistenceProvider,
-    legacyRegistry
-) {
-    "use strict";
+import BrowserPersistenceProvider from './src/BrowserPersistenceProvider';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("example/persistence", {
-        "extensions": {
-            "components": [
-                {
-                    "provides": "persistenceService",
-                    "type": "provider",
-                    "implementation": BrowserPersistenceProvider,
-                    "depends": [
-                        "$q",
-                        "PERSISTENCE_SPACE"
-                    ]
-                }
-            ],
-            "constants": [
-                {
-                    "key": "PERSISTENCE_SPACE",
-                    "value": "mct"
-                }
-            ]
-        }
-    });
+legacyRegistry.register("example/persistence", {
+    "extensions": {
+        "components": [
+            {
+                "provides": "persistenceService",
+                "type": "provider",
+                "implementation": BrowserPersistenceProvider,
+                "depends": [
+                    "$q",
+                    "PERSISTENCE_SPACE"
+                ]
+            }
+        ],
+        "constants": [
+            {
+                "key": "PERSISTENCE_SPACE",
+                "value": "mct"
+            }
+        ]
+    }
 });

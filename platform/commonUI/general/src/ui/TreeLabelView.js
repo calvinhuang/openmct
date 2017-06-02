@@ -21,7 +21,7 @@
  *****************************************************************************/
 
 import labelTemplate from 'raw-loader!../../res/templates/tree/tree-label.html';
-import $ from 'zepto';
+import $ from 'webpack-zepto';
 
 function TreeLabelView(gestureService) {
     this.el = $(labelTemplate);

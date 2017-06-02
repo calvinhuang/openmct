@@ -22,84 +22,67 @@
 
 /*global window,requirejs*/
 
-define([
-    'require',
-    './Constants',
-    './FrameworkInitializer',
-    './LogLevel',
-    './load/BundleLoader',
-    './resolve/ImplementationLoader',
-    './resolve/ExtensionResolver',
-    './resolve/BundleResolver',
-    './resolve/RequireConfigurator',
-    './register/CustomRegistrars',
-    './register/ExtensionRegistrar',
-    './register/ExtensionSorter',
-    './bootstrap/ApplicationBootstrapper'
-], function (
-    require,
-    Constants,
-    FrameworkInitializer,
-    LogLevel,
-    BundleLoader,
-    ImplementationLoader,
-    ExtensionResolver,
-    BundleResolver,
-    RequireConfigurator,
-    CustomRegistrars,
-    ExtensionRegistrar,
-    ExtensionSorter,
-    ApplicationBootstrapper
+import 'requirejs';
+import Constants from './Constants';
+import FrameworkInitializer from './FrameworkInitializer';
+import LogLevel from './LogLevel';
+import BundleLoader from './load/BundleLoader';
+import ImplementationLoader from './resolve/ImplementationLoader';
+import ExtensionResolver from './resolve/ExtensionResolver';
+import BundleResolver from './resolve/BundleResolver';
+import RequireConfigurator from './resolve/RequireConfigurator';
+import CustomRegistrars from './register/CustomRegistrars';
+import ExtensionRegistrar from './register/ExtensionRegistrar';
+import ExtensionSorter from './register/ExtensionSorter';
+import ApplicationBootstrapper from './bootstrap/ApplicationBootstrapper';
+
+function FrameworkLayer($http, $log) {
+    this.$http = $http;
+    this.$log = $log;
+}
+
+FrameworkLayer.prototype.initializeApplication = function (
+    angular,
+    legacyRegistry,
+    logLevel
 ) {
-
-    function FrameworkLayer($http, $log) {
-        this.$http = $http;
-        this.$log = $log;
-    }
-
-    FrameworkLayer.prototype.initializeApplication = function (
-        angular,
-        legacyRegistry,
-        logLevel
-    ) {
-        var $http = this.$http,
-            $log = this.$log,
-            app = angular.module(Constants.MODULE_NAME, ["ngRoute"]),
-            loader = new BundleLoader($http, $log, legacyRegistry),
-            resolver = new BundleResolver(
-                new ExtensionResolver(
-                    new ImplementationLoader(require),
-                    $log
-                ),
-                new RequireConfigurator(requirejs),
+    var $http = this.$http,
+        $log = this.$log,
+        app = angular.module(Constants.MODULE_NAME, ["ngRoute"]),
+        loader = new BundleLoader($http, $log, legacyRegistry),
+        resolver = new BundleResolver(
+            new ExtensionResolver(
+                new ImplementationLoader('require'),
                 $log
             ),
-            registrar = new ExtensionRegistrar(
-                app,
-                new CustomRegistrars(app, $log),
-                new ExtensionSorter($log),
-                $log
-            ),
-            bootstrapper = new ApplicationBootstrapper(
-                angular,
-                window.document,
-                $log
-            ),
-            initializer = new FrameworkInitializer(
-                loader,
-                resolver,
-                registrar,
-                bootstrapper
-            );
+            new RequireConfigurator('requirejs'),
+            $log
+        ),
+        registrar = new ExtensionRegistrar(
+            app,
+            new CustomRegistrars(app, $log),
+            new ExtensionSorter($log),
+            $log
+        ),
+        bootstrapper = new ApplicationBootstrapper(
+            angular,
+            window.document,
+            $log
+        ),
+        initializer = new FrameworkInitializer(
+            loader,
+            resolver,
+            registrar,
+            bootstrapper
+        );
 
-        // Apply logging levels; this must be done now, before the
-        // first log statement.
-        new LogLevel(logLevel).configure(app, $log);
+    // Apply logging levels; this must be done now, before the
+    // first log statement.
+    new LogLevel(logLevel).configure(app, $log);
 
-        // Initialize the application
-        $log.info("Initializing application.");
-        initializer.runApplication();
-    };
+    // Initialize the application
+    $log.info("Initializing application.");
+    initializer.runApplication();
+};
 
-    return FrameworkLayer;
-});
+export default FrameworkLayer;

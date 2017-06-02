@@ -20,24 +20,18 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/ConductorRepresenter",
-    'legacyRegistry'
-], function (
-    ConductorRepresenter,
-    legacyRegistry
-) {
+import ConductorRepresenter from './src/ConductorRepresenter';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/features/conductor/compatibility", {
-        "extensions": {
-            "representers": [
-                {
-                    "implementation": ConductorRepresenter,
-                    "depends": [
-                        "openmct"
-                    ]
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/features/conductor/compatibility", {
+    "extensions": {
+        "representers": [
+            {
+                "implementation": ConductorRepresenter,
+                "depends": [
+                    "openmct"
+                ]
+            }
+        ]
+    }
 });

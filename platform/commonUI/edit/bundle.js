@@ -20,410 +20,368 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/controllers/EditActionController",
-    "./src/controllers/EditPanesController",
-    "./src/controllers/ElementsController",
-    "./src/controllers/EditObjectController",
-    "./src/actions/EditAndComposeAction",
-    "./src/actions/EditAction",
-    "./src/actions/PropertiesAction",
-    "./src/actions/RemoveAction",
-    "./src/actions/SaveAction",
-    "./src/actions/SaveAndStopEditingAction",
-    "./src/actions/SaveAsAction",
-    "./src/actions/CancelAction",
-    "./src/policies/EditActionPolicy",
-    "./src/policies/EditPersistableObjectsPolicy",
-    "./src/policies/EditableLinkPolicy",
-    "./src/policies/EditableMovePolicy",
-    "./src/policies/EditContextualActionPolicy",
-    "./src/representers/EditRepresenter",
-    "./src/representers/EditToolbarRepresenter",
-    "./src/capabilities/EditorCapability",
-    "./src/capabilities/TransactionCapabilityDecorator",
-    "./src/services/TransactionManager",
-    "./src/services/TransactionService",
-    "./src/creation/CreateMenuController",
-    "./src/creation/LocatorController",
-    "./src/creation/CreationPolicy",
-    "./src/creation/CreateActionProvider",
-    "./src/creation/AddActionProvider",
-    "./src/creation/CreationService",
-    "text!./res/templates/create/locator.html",
-    "text!./res/templates/create/create-button.html",
-    "text!./res/templates/create/create-menu.html",
-    "text!./res/templates/library.html",
-    "text!./res/templates/edit-object.html",
-    "text!./res/templates/edit-action-buttons.html",
-    "text!./res/templates/elements.html",
-    "text!./res/templates/topbar-edit.html",
-    'legacyRegistry'
-], function (
-    EditActionController,
-    EditPanesController,
-    ElementsController,
-    EditObjectController,
-    EditAndComposeAction,
-    EditAction,
-    PropertiesAction,
-    RemoveAction,
-    SaveAction,
-    SaveAndStopEditingAction,
-    SaveAsAction,
-    CancelAction,
-    EditActionPolicy,
-    EditPersistableObjectsPolicy,
-    EditableLinkPolicy,
-    EditableMovePolicy,
-    EditContextualActionPolicy,
-    EditRepresenter,
-    EditToolbarRepresenter,
-    EditorCapability,
-    TransactionCapabilityDecorator,
-    TransactionManager,
-    TransactionService,
-    CreateMenuController,
-    LocatorController,
-    CreationPolicy,
-    CreateActionProvider,
-    AddActionProvider,
-    CreationService,
-    locatorTemplate,
-    createButtonTemplate,
-    createMenuTemplate,
-    libraryTemplate,
-    editObjectTemplate,
-    editActionButtonsTemplate,
-    elementsTemplate,
-    topbarEditTemplate,
-    legacyRegistry
-) {
+import EditActionController from './src/controllers/EditActionController';
+import EditPanesController from './src/controllers/EditPanesController';
+import ElementsController from './src/controllers/ElementsController';
+import EditObjectController from './src/controllers/EditObjectController';
+import EditAndComposeAction from './src/actions/EditAndComposeAction';
+import EditAction from './src/actions/EditAction';
+import PropertiesAction from './src/actions/PropertiesAction';
+import RemoveAction from './src/actions/RemoveAction';
+import SaveAction from './src/actions/SaveAction';
+import SaveAndStopEditingAction from './src/actions/SaveAndStopEditingAction';
+import SaveAsAction from './src/actions/SaveAsAction';
+import CancelAction from './src/actions/CancelAction';
+import EditActionPolicy from './src/policies/EditActionPolicy';
+import EditPersistableObjectsPolicy from './src/policies/EditPersistableObjectsPolicy';
+import EditableLinkPolicy from './src/policies/EditableLinkPolicy';
+import EditableMovePolicy from './src/policies/EditableMovePolicy';
+import EditContextualActionPolicy from './src/policies/EditContextualActionPolicy';
+import EditRepresenter from './src/representers/EditRepresenter';
+import EditToolbarRepresenter from './src/representers/EditToolbarRepresenter';
+import EditorCapability from './src/capabilities/EditorCapability';
+import TransactionCapabilityDecorator from './src/capabilities/TransactionCapabilityDecorator';
+import TransactionManager from './src/services/TransactionManager';
+import TransactionService from './src/services/TransactionService';
+import CreateMenuController from './src/creation/CreateMenuController';
+import LocatorController from './src/creation/LocatorController';
+import CreationPolicy from './src/creation/CreationPolicy';
+import CreateActionProvider from './src/creation/CreateActionProvider';
+import AddActionProvider from './src/creation/AddActionProvider';
+import CreationService from './src/creation/CreationService';
+import locatorTemplate from 'raw-loader!./res/templates/create/locator.html';
+import createButtonTemplate from 'raw-loader!./res/templates/create/create-button.html';
+import createMenuTemplate from 'raw-loader!./res/templates/create/create-menu.html';
+import libraryTemplate from 'raw-loader!./res/templates/library.html';
+import editObjectTemplate from 'raw-loader!./res/templates/edit-object.html';
+import editActionButtonsTemplate from 'raw-loader!./res/templates/edit-action-buttons.html';
+import elementsTemplate from 'raw-loader!./res/templates/elements.html';
+import topbarEditTemplate from 'raw-loader!./res/templates/topbar-edit.html';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/commonUI/edit", {
-        "extensions": {
-            "controllers": [
-                {
-                    "key": "EditActionController",
-                    "implementation": EditActionController,
-                    "depends": [
-                        "$scope"
-                    ]
-                },
-                {
-                    "key": "EditPanesController",
-                    "implementation": EditPanesController,
-                    "depends": [
-                        "$scope"
-                    ]
-                },
-                {
-                    "key": "ElementsController",
-                    "implementation": ElementsController,
-                    "depends": [
-                        "$scope"
-                    ]
-                },
-                {
-                    "key": "EditObjectController",
-                    "implementation": EditObjectController,
-                    "depends": [
-                        "$scope",
-                        "$location",
-                        "navigationService"
-                    ]
-                },
-                {
-                    "key": "CreateMenuController",
-                    "implementation": CreateMenuController,
-                    "depends": [
-                        "$scope"
-                    ]
-                },
-                {
-                    "key": "LocatorController",
-                    "implementation": LocatorController,
-                    "depends": [
-                        "$scope",
-                        "$timeout",
-                        "objectService"
-                    ]
-                }
-            ],
-            "actions": [
-                {
-                    "key": "compose",
-                    "implementation": EditAndComposeAction
-                },
-                {
-                    "key": "edit",
-                    "implementation": EditAction,
-                    "depends": [
-                        "$location",
-                        "navigationService",
-                        "$log"
-                    ],
-                    "description": "Edit",
-                    "category": "view-control",
-                    "cssClass": "major icon-pencil"
-                },
-                {
-                    "key": "properties",
-                    "category": [
-                        "contextual",
-                        "view-control"
-                    ],
-                    "implementation": PropertiesAction,
-                    "cssClass": "major icon-pencil",
-                    "name": "Edit Properties...",
-                    "description": "Edit properties of this object.",
-                    "depends": [
-                        "dialogService"
-                    ]
-                },
-                {
-                    "key": "remove",
-                    "category": "contextual",
-                    "implementation": RemoveAction,
-                    "cssClass": "icon-trash",
-                    "name": "Remove",
-                    "description": "Remove this object from its containing object.",
-                    "depends": [
-                        "navigationService"
-                    ]
-                },
-                {
-                    "key": "save-and-stop-editing",
-                    "category": "save",
-                    "implementation": SaveAndStopEditingAction,
-                    "name": "Save and Finish Editing",
-                    "cssClass": "icon-save labeled",
-                    "description": "Save changes made to these objects.",
-                    "depends": [
-                        "dialogService",
-                        "notificationService"
-                    ]
-                },
-                {
-                    "key": "save",
-                    "category": "save",
-                    "implementation": SaveAction,
-                    "name": "Save and Continue Editing",
-                    "cssClass": "icon-save labeled",
-                    "description": "Save changes made to these objects.",
-                    "depends": [
-                        "dialogService",
-                        "notificationService"
-                    ]
-                },
-                {
-                    "key": "save-as",
-                    "category": "save",
-                    "implementation": SaveAsAction,
-                    "name": "Save As...",
-                    "cssClass": "icon-save labeled",
-                    "description": "Save changes made to these objects.",
-                    "depends": [
-                        "$injector",
-                        "policyService",
-                        "dialogService",
-                        "copyService",
-                        "notificationService"
-                    ],
-                    "priority": "mandatory"
-                },
-                {
-                    "key": "cancel",
-                    "category": "conclude-editing",
-                    "implementation": CancelAction,
-                    // Because we use the name as label for edit buttons and mct-control buttons need
-                    // the label to be set to undefined in order to not apply the labeled CSS rule.
-                    "name": undefined,
-                    "cssClass": "icon-x no-label",
-                    "description": "Discard changes made to these objects.",
-                    "depends": []
-                }
-            ],
-            "policies": [
-                {
-                    "category": "action",
-                    "implementation": EditActionPolicy
-                },
-                {
-                    "category": "action",
-                    "implementation": EditPersistableObjectsPolicy,
-                    "depends": ["openmct"]
-                },
-                {
-                    "category": "action",
-                    "implementation": EditContextualActionPolicy,
-                    "depends": ["navigationService", "editModeBlacklist", "nonEditContextBlacklist"]
-                },
-                {
-                    "category": "action",
-                    "implementation": EditableMovePolicy
-                },
-                {
-                    "category": "action",
-                    "implementation": EditableLinkPolicy
-                },
-                {
-                    "implementation": CreationPolicy,
-                    "category": "creation"
-                }
-            ],
-            "templates": [
-                {
-                    "key": "edit-library",
-                    "template": libraryTemplate
-                }
-            ],
-            "representations": [
-                {
-                    "key": "edit-object",
-                    "template": editObjectTemplate,
-                    "uses": [
-                        "view"
-                    ],
-                    "gestures": [
-                        "drop"
-                    ]
-                },
-                {
-                    "key": "edit-action-buttons",
-                    "template": editActionButtonsTemplate,
-                    "uses": [
-                        "action"
-                    ]
-                },
-                {
-                    "key": "edit-elements",
-                    "template": elementsTemplate,
-                    "uses": [
-                        "composition"
-                    ],
-                    "gestures": [
-                        "drop"
-                    ]
-                },
-                {
-                    "key": "topbar-edit",
-                    "template": topbarEditTemplate
-                },
-                {
-                    "key": "create-button",
-                    "template": createButtonTemplate
-                },
-                {
-                    "key": "create-menu",
-                    "template": createMenuTemplate,
-                    "uses": [
-                        "action"
-                    ]
-                }
-            ],
-            "components": [
-                {
-                    "type": "decorator",
-                    "provides": "capabilityService",
-                    "implementation": TransactionCapabilityDecorator,
-                    "depends": [
-                        "$q",
-                        "transactionManager"
-                    ],
-                    "priority": "fallback"
-                },
-                {
-                    "type": "provider",
-                    "provides": "transactionService",
-                    "implementation": TransactionService,
-                    "depends": [
-                        "$q",
-                        "$log",
-                        "cacheService"
-                    ]
-                },
-                {
-                    "key": "CreateActionProvider",
-                    "provides": "actionService",
-                    "type": "provider",
-                    "implementation": CreateActionProvider,
-                    "depends": [
-                        "typeService",
-                        "policyService"
-                    ]
-                },
-                {
-                    "key": "AddActionProvider",
-                    "provides": "actionService",
-                    "type": "provider",
-                    "implementation": AddActionProvider,
-                    "depends": [
-                        "$q",
-                        "typeService",
-                        "dialogService",
-                        "policyService"
-                    ]
-                },
-                {
-                    "key": "CreationService",
-                    "provides": "creationService",
-                    "type": "provider",
-                    "implementation": CreationService,
-                    "depends": [
-                        "$q",
-                        "$log"
-                    ]
-                }
+legacyRegistry.register("platform/commonUI/edit", {
+    "extensions": {
+        "controllers": [
+            {
+                "key": "EditActionController",
+                "implementation": EditActionController,
+                "depends": [
+                    "$scope"
+                ]
+            },
+            {
+                "key": "EditPanesController",
+                "implementation": EditPanesController,
+                "depends": [
+                    "$scope"
+                ]
+            },
+            {
+                "key": "ElementsController",
+                "implementation": ElementsController,
+                "depends": [
+                    "$scope"
+                ]
+            },
+            {
+                "key": "EditObjectController",
+                "implementation": EditObjectController,
+                "depends": [
+                    "$scope",
+                    "$location",
+                    "navigationService"
+                ]
+            },
+            {
+                "key": "CreateMenuController",
+                "implementation": CreateMenuController,
+                "depends": [
+                    "$scope"
+                ]
+            },
+            {
+                "key": "LocatorController",
+                "implementation": LocatorController,
+                "depends": [
+                    "$scope",
+                    "$timeout",
+                    "objectService"
+                ]
+            }
+        ],
+        "actions": [
+            {
+                "key": "compose",
+                "implementation": EditAndComposeAction
+            },
+            {
+                "key": "edit",
+                "implementation": EditAction,
+                "depends": [
+                    "$location",
+                    "navigationService",
+                    "$log"
+                ],
+                "description": "Edit",
+                "category": "view-control",
+                "cssClass": "major icon-pencil"
+            },
+            {
+                "key": "properties",
+                "category": [
+                    "contextual",
+                    "view-control"
+                ],
+                "implementation": PropertiesAction,
+                "cssClass": "major icon-pencil",
+                "name": "Edit Properties...",
+                "description": "Edit properties of this object.",
+                "depends": [
+                    "dialogService"
+                ]
+            },
+            {
+                "key": "remove",
+                "category": "contextual",
+                "implementation": RemoveAction,
+                "cssClass": "icon-trash",
+                "name": "Remove",
+                "description": "Remove this object from its containing object.",
+                "depends": [
+                    "navigationService"
+                ]
+            },
+            {
+                "key": "save-and-stop-editing",
+                "category": "save",
+                "implementation": SaveAndStopEditingAction,
+                "name": "Save and Finish Editing",
+                "cssClass": "icon-save labeled",
+                "description": "Save changes made to these objects.",
+                "depends": [
+                    "dialogService",
+                    "notificationService"
+                ]
+            },
+            {
+                "key": "save",
+                "category": "save",
+                "implementation": SaveAction,
+                "name": "Save and Continue Editing",
+                "cssClass": "icon-save labeled",
+                "description": "Save changes made to these objects.",
+                "depends": [
+                    "dialogService",
+                    "notificationService"
+                ]
+            },
+            {
+                "key": "save-as",
+                "category": "save",
+                "implementation": SaveAsAction,
+                "name": "Save As...",
+                "cssClass": "icon-save labeled",
+                "description": "Save changes made to these objects.",
+                "depends": [
+                    "$injector",
+                    "policyService",
+                    "dialogService",
+                    "copyService",
+                    "notificationService"
+                ],
+                "priority": "mandatory"
+            },
+            {
+                "key": "cancel",
+                "category": "conclude-editing",
+                "implementation": CancelAction,
+                // Because we use the name as label for edit buttons and mct-control buttons need
+                // the label to be set to undefined in order to not apply the labeled CSS rule.
+                "name": undefined,
+                "cssClass": "icon-x no-label",
+                "description": "Discard changes made to these objects.",
+                "depends": []
+            }
+        ],
+        "policies": [
+            {
+                "category": "action",
+                "implementation": EditActionPolicy
+            },
+            {
+                "category": "action",
+                "implementation": EditPersistableObjectsPolicy,
+                "depends": ["openmct"]
+            },
+            {
+                "category": "action",
+                "implementation": EditContextualActionPolicy,
+                "depends": ["navigationService", "editModeBlacklist", "nonEditContextBlacklist"]
+            },
+            {
+                "category": "action",
+                "implementation": EditableMovePolicy
+            },
+            {
+                "category": "action",
+                "implementation": EditableLinkPolicy
+            },
+            {
+                "implementation": CreationPolicy,
+                "category": "creation"
+            }
+        ],
+        "templates": [
+            {
+                "key": "edit-library",
+                "template": libraryTemplate
+            }
+        ],
+        "representations": [
+            {
+                "key": "edit-object",
+                "template": editObjectTemplate,
+                "uses": [
+                    "view"
+                ],
+                "gestures": [
+                    "drop"
+                ]
+            },
+            {
+                "key": "edit-action-buttons",
+                "template": editActionButtonsTemplate,
+                "uses": [
+                    "action"
+                ]
+            },
+            {
+                "key": "edit-elements",
+                "template": elementsTemplate,
+                "uses": [
+                    "composition"
+                ],
+                "gestures": [
+                    "drop"
+                ]
+            },
+            {
+                "key": "topbar-edit",
+                "template": topbarEditTemplate
+            },
+            {
+                "key": "create-button",
+                "template": createButtonTemplate
+            },
+            {
+                "key": "create-menu",
+                "template": createMenuTemplate,
+                "uses": [
+                    "action"
+                ]
+            }
+        ],
+        "components": [
+            {
+                "type": "decorator",
+                "provides": "capabilityService",
+                "implementation": TransactionCapabilityDecorator,
+                "depends": [
+                    "$q",
+                    "transactionManager"
+                ],
+                "priority": "fallback"
+            },
+            {
+                "type": "provider",
+                "provides": "transactionService",
+                "implementation": TransactionService,
+                "depends": [
+                    "$q",
+                    "$log",
+                    "cacheService"
+                ]
+            },
+            {
+                "key": "CreateActionProvider",
+                "provides": "actionService",
+                "type": "provider",
+                "implementation": CreateActionProvider,
+                "depends": [
+                    "typeService",
+                    "policyService"
+                ]
+            },
+            {
+                "key": "AddActionProvider",
+                "provides": "actionService",
+                "type": "provider",
+                "implementation": AddActionProvider,
+                "depends": [
+                    "$q",
+                    "typeService",
+                    "dialogService",
+                    "policyService"
+                ]
+            },
+            {
+                "key": "CreationService",
+                "provides": "creationService",
+                "type": "provider",
+                "implementation": CreationService,
+                "depends": [
+                    "$q",
+                    "$log"
+                ]
+            }
 
-            ],
-            "representers": [
-                {
-                    "implementation": EditRepresenter,
-                    "depends": [
-                        "$log"
-                    ]
-                },
-                {
-                    "implementation": EditToolbarRepresenter
-                }
-            ],
-            "constants": [
-                {
-                    "key": "editModeBlacklist",
-                    "value": ["copy", "follow", "link", "locate"]
-                },
-                {
-                    "key": "nonEditContextBlacklist",
-                    "value": ["copy", "follow", "properties", "move", "link", "remove", "locate"]
-                }
-            ],
-            "capabilities": [
-                {
-                    "key": "editor",
-                    "name": "Editor Capability",
-                    "description": "Provides transactional editing capabilities",
-                    "implementation": EditorCapability,
-                    "depends": [
-                        "transactionService"
-                    ]
-                }
-            ],
-            "controls": [
-                {
-                    "key": "locator",
-                    "template": locatorTemplate
-                }
-            ],
-            "services": [
-                {
-                    "key": "transactionManager",
-                    "implementation": TransactionManager,
-                    "depends": [
-                        "transactionService"
-                    ]
-                }
-            ]
-        }
-    });
+        ],
+        "representers": [
+            {
+                "implementation": EditRepresenter,
+                "depends": [
+                    "$log"
+                ]
+            },
+            {
+                "implementation": EditToolbarRepresenter
+            }
+        ],
+        "constants": [
+            {
+                "key": "editModeBlacklist",
+                "value": ["copy", "follow", "link", "locate"]
+            },
+            {
+                "key": "nonEditContextBlacklist",
+                "value": ["copy", "follow", "properties", "move", "link", "remove", "locate"]
+            }
+        ],
+        "capabilities": [
+            {
+                "key": "editor",
+                "name": "Editor Capability",
+                "description": "Provides transactional editing capabilities",
+                "implementation": EditorCapability,
+                "depends": [
+                    "transactionService"
+                ]
+            }
+        ],
+        "controls": [
+            {
+                "key": "locator",
+                "template": locatorTemplate
+            }
+        ],
+        "services": [
+            {
+                "key": "transactionManager",
+                "implementation": TransactionManager,
+                "depends": [
+                    "transactionService"
+                ]
+            }
+        ]
+    }
 });

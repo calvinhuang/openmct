@@ -20,30 +20,23 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
+import legacyRegistry from 'legacyRegistry';
 
-    'legacyRegistry'
-], function (
-
-    legacyRegistry
-) {
-
-    legacyRegistry.register("platform/commonUI/themes/snow", {
-        "name": "Snow",
-        "description": "Snow theme: light and cool",
-        "extensions": {
-            "stylesheets": [
-                {
-                    "stylesheetUrl": "css/theme-snow.css",
-                    "priority": 1000
-                }
-            ],
-            "constants": [
-                {
-                    "key": "THEME",
-                    "value": "snow"
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/commonUI/themes/snow", {
+    "name": "Snow",
+    "description": "Snow theme: light and cool",
+    "extensions": {
+        "stylesheets": [
+            {
+                "stylesheetUrl": "css/theme-snow.css",
+                "priority": 1000
+            }
+        ],
+        "constants": [
+            {
+                "key": "THEME",
+                "value": "snow"
+            }
+        ]
+    }
 });

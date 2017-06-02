@@ -4,7 +4,7 @@
   "description": "The Open MCT core platform",
   "dependencies": {
     "almond": "^0.3.3",
-    "angular": "1.4.4",
+    "angular": "^1.6.4",
     "angular-route": "1.4.4",
     "comma-separated-values": "^3.6.4",
     "d3-array": "^1.0.2",
@@ -29,6 +29,7 @@
     "request": "^2.69.0",
     "screenfull": "^3.2.0",
     "text": "requirejs/text",
+    "webpack-zepto": "^0.0.1",
     "zepto": "^1.2.0"
   },
   "devDependencies": {

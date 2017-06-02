@@ -19,50 +19,42 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    "./src/ExampleTaxonomyModelProvider",
-    'legacyRegistry'
-], function (
-    ExampleTaxonomyModelProvider,
-    legacyRegistry
-) {
-    "use strict";
+import ExampleTaxonomyModelProvider from './src/ExampleTaxonomyModelProvider';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("example/taxonomy", {
-        "name": "Example taxonomy",
-        "description": "Example illustrating the addition of a static top-level hierarchy",
-        "extensions": {
-            "roots": [
-                {
-                    "id": "exampleTaxonomy"
-                }
-            ],
-            "models": [
-                {
-                    "id": "exampleTaxonomy",
-                    "model": {
-                        "type": "folder",
-                        "name": "Stub Subsystems",
-                        "composition": [
-                            "examplePacket0",
-                            "examplePacket1",
-                            "examplePacket2"
-                        ]
-                    }
-                }
-            ],
-            "components": [
-                {
-                    "provides": "modelService",
-                    "type": "provider",
-                    "implementation": ExampleTaxonomyModelProvider,
-                    "depends": [
-                        "$q"
+legacyRegistry.register("example/taxonomy", {
+    "name": "Example taxonomy",
+    "description": "Example illustrating the addition of a static top-level hierarchy",
+    "extensions": {
+        "roots": [
+            {
+                "id": "exampleTaxonomy"
+            }
+        ],
+        "models": [
+            {
+                "id": "exampleTaxonomy",
+                "model": {
+                    "type": "folder",
+                    "name": "Stub Subsystems",
+                    "composition": [
+                        "examplePacket0",
+                        "examplePacket1",
+                        "examplePacket2"
                     ]
                 }
-            ]
-        }
-    });
+            }
+        ],
+        "components": [
+            {
+                "provides": "modelService",
+                "type": "provider",
+                "implementation": ExampleTaxonomyModelProvider,
+                "depends": [
+                    "$q"
+                ]
+            }
+        ]
+    }
 });

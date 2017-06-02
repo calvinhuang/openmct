@@ -21,7 +21,7 @@
  *****************************************************************************/
 
 import labelTemplate from 'raw-loader!../../res/templates/tree/toggle.html';
-import $ from 'zepto';
+import $ from 'webpack-zepto';
 
 function ToggleView(state) {
     this.expanded = !!state;

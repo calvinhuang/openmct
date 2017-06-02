@@ -22,42 +22,38 @@
 /*global define */
 
 /**
- * Module defining EventTelemetry. 
+ * Module defining EventTelemetry.
  * Created by chacskaylo on 06/18/2015.
- * Modified by shale on 06/23/2015. 
+ * Modified by shale on 06/23/2015.
  */
-define(
-    ['text!../data/transcript.json'],
-    function (transcript) {
-        "use strict";
 
-        var firstObservedTime = Date.now(),
-            messages = JSON.parse(transcript);
-        
-        function EventTelemetry(request, interval) {
+import transcript from 'raw-loader!../data/transcript.json';
 
-            var latestObservedTime = Date.now(),
-                count = Math.floor((latestObservedTime - firstObservedTime) / interval),
-                generatorData = {};
-            
-            generatorData.getPointCount = function () {
-                return count;
-            };
+var firstObservedTime = Date.now(),
+    messages = JSON.parse(transcript);
 
-            generatorData.getDomainValue = function (i, domain) {
-                return i * interval +
-                        (domain !== 'delta' ? firstObservedTime : 0);
-            };
-            
-	        generatorData.getRangeValue = function (i, range) {
-		        var domainDelta = this.getDomainValue(i) - firstObservedTime,
-                    ind = i % messages.length;
-                return messages[ind] + " - [" + domainDelta.toString() + "]";
-	        };
-            
-            return generatorData;
-        }
+function EventTelemetry(request, interval) {
 
-        return EventTelemetry;
-    }
-);
+    var latestObservedTime = Date.now(),
+        count = Math.floor((latestObservedTime - firstObservedTime) / interval),
+        generatorData = {};
+
+    generatorData.getPointCount = function () {
+        return count;
+    };
+
+    generatorData.getDomainValue = function (i, domain) {
+        return i * interval +
+                (domain !== 'delta' ? firstObservedTime : 0);
+    };
+
+  generatorData.getRangeValue = function (i, range) {
+    var domainDelta = this.getDomainValue(i) - firstObservedTime,
+            ind = i % messages.length;
+        return messages[ind] + " - [" + domainDelta.toString() + "]";
+  };
+
+    return generatorData;
+}
+
+export default EventTelemetry;

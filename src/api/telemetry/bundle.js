@@ -20,36 +20,30 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    './TelemetryAPI',
-    './LegacyTelemetryProvider',
-    'legacyRegistry'
-], function (
-    TelemetryAPI,
-    LegacyTelemetryProvider,
-    legacyRegistry
-) {
-    legacyRegistry.register('src/api/telemetry', {
-        name: 'Telemetry API',
-        description: 'The public Telemetry API',
-        extensions: {
-            runs: [
-                {
-                    key: "TelemetryAPI",
-                    implementation: TelemetryAPI,
-                    depends: [
-                        'formatService'
-                    ]
-                },
-                {
-                    key: "LegacyTelemetryAdapter",
-                    implementation: LegacyTelemetryProvider,
-                    depends: [
-                        "openmct",
-                        "instantiate"
-                    ]
-                }
-            ]
-        }
-    });
+import TelemetryAPI from './TelemetryAPI';
+import LegacyTelemetryProvider from './LegacyTelemetryProvider';
+import legacyRegistry from 'legacyRegistry';
+
+legacyRegistry.register('src/api/telemetry', {
+    name: 'Telemetry API',
+    description: 'The public Telemetry API',
+    extensions: {
+        runs: [
+            {
+                key: "TelemetryAPI",
+                implementation: TelemetryAPI,
+                depends: [
+                    'formatService'
+                ]
+            },
+            {
+                key: "LegacyTelemetryAdapter",
+                implementation: LegacyTelemetryProvider,
+                depends: [
+                    "openmct",
+                    "instantiate"
+                ]
+            }
+        ]
+    }
 });

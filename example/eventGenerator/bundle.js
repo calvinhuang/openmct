@@ -19,62 +19,54 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    "./src/EventTelemetryProvider",
-    'legacyRegistry'
-], function (
-    EventTelemetryProvider,
-    legacyRegistry
-) {
-    "use strict";
+import EventTelemetryProvider from './src/EventTelemetryProvider';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("example/eventGenerator", {
-        "name": "Event Message Generator",
-        "description": "For development use. Creates sample event message data that mimics a live data stream.",
-        "extensions": {
-            "components": [
-                {
-                    "implementation": EventTelemetryProvider,
-                    "type": "provider",
-                    "provides": "telemetryService",
-                    "depends": [
-                        "$q",
-                        "$timeout"
+legacyRegistry.register("example/eventGenerator", {
+    "name": "Event Message Generator",
+    "description": "For development use. Creates sample event message data that mimics a live data stream.",
+    "extensions": {
+        "components": [
+            {
+                "implementation": EventTelemetryProvider,
+                "type": "provider",
+                "provides": "telemetryService",
+                "depends": [
+                    "$q",
+                    "$timeout"
+                ]
+            }
+        ],
+        "types": [
+            {
+                "key": "eventGenerator",
+                "name": "Event Message Generator",
+                "cssClass": "icon-folder-new",
+                "description": "For development use. Creates sample event message data that mimics a live data stream.",
+                "priority": 10,
+                "features": "creation",
+                "model": {
+                    "telemetry": {}
+                },
+                "telemetry": {
+                    "source": "eventGenerator",
+                    "domains": [
+                        {
+                            "key": "time",
+                            "name": "Time",
+                            "format": "utc"
+                        }
+                    ],
+                    "ranges": [
+                        {
+                            "key": "message",
+                            "name": "Message",
+                            "format": "string"
+                        }
                     ]
                 }
-            ],
-            "types": [
-                {
-                    "key": "eventGenerator",
-                    "name": "Event Message Generator",
-                    "cssClass": "icon-folder-new",
-                    "description": "For development use. Creates sample event message data that mimics a live data stream.",
-                    "priority": 10,
-                    "features": "creation",
-                    "model": {
-                        "telemetry": {}
-                    },
-                    "telemetry": {
-                        "source": "eventGenerator",
-                        "domains": [
-                            {
-                                "key": "time",
-                                "name": "Time",
-                                "format": "utc"
-                            }
-                        ],
-                        "ranges": [
-                            {
-                                "key": "message",
-                                "name": "Message",
-                                "format": "string"
-                            }
-                        ]
-                    }
-                }
-            ]
-        }
-    });
+            }
+        ]
+    }
 });

@@ -20,71 +20,62 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/NotificationIndicatorController",
-    "./src/NotificationIndicator",
-    "./src/NotificationService",
-    "text!./res/notification-indicator.html",
-    'legacyRegistry'
-], function (
-    NotificationIndicatorController,
-    NotificationIndicator,
-    NotificationService,
-    notificationIndicatorTemplate,
-    legacyRegistry
-) {
+import NotificationIndicatorController from './src/NotificationIndicatorController';
+import NotificationIndicator from './src/NotificationIndicator';
+import NotificationService from './src/NotificationService';
+import notificationIndicatorTemplate from 'raw-loader!./res/notification-indicator.html';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/commonUI/notification", {
-        "extensions": {
-            "constants": [
-                {
-                    "key": "DEFAULT_AUTO_DISMISS",
-                    "value": 3000
-                },
-                {
-                    "key": "FORCE_AUTO_DISMISS",
-                    "value": 1000
-                },
-                {
-                    "key": "MINIMIZE_TIMEOUT",
-                    "value": 300
-                }
-            ],
-            "templates": [
-                {
-                    "key": "notificationIndicatorTemplate",
-                    "template": notificationIndicatorTemplate
-                }
-            ],
-            "controllers": [
-                {
-                    "key": "NotificationIndicatorController",
-                    "implementation": NotificationIndicatorController,
-                    "depends": [
-                        "$scope",
-                        "notificationService",
-                        "dialogService"
-                    ]
-                }
-            ],
-            "indicators": [
-                {
-                    "implementation": NotificationIndicator,
-                    "priority": "fallback"
-                }
-            ],
-            "services": [
-                {
-                    "key": "notificationService",
-                    "implementation": NotificationService,
-                    "depends": [
-                        "$timeout",
-                        "topic",
-                        "DEFAULT_AUTO_DISMISS",
-                        "MINIMIZE_TIMEOUT"
-                    ]
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/commonUI/notification", {
+    "extensions": {
+        "constants": [
+            {
+                "key": "DEFAULT_AUTO_DISMISS",
+                "value": 3000
+            },
+            {
+                "key": "FORCE_AUTO_DISMISS",
+                "value": 1000
+            },
+            {
+                "key": "MINIMIZE_TIMEOUT",
+                "value": 300
+            }
+        ],
+        "templates": [
+            {
+                "key": "notificationIndicatorTemplate",
+                "template": notificationIndicatorTemplate
+            }
+        ],
+        "controllers": [
+            {
+                "key": "NotificationIndicatorController",
+                "implementation": NotificationIndicatorController,
+                "depends": [
+                    "$scope",
+                    "notificationService",
+                    "dialogService"
+                ]
+            }
+        ],
+        "indicators": [
+            {
+                "implementation": NotificationIndicator,
+                "priority": "fallback"
+            }
+        ],
+        "services": [
+            {
+                "key": "notificationService",
+                "implementation": NotificationService,
+                "depends": [
+                    "$timeout",
+                    "topic",
+                    "DEFAULT_AUTO_DISMISS",
+                    "MINIMIZE_TIMEOUT"
+                ]
+            }
+        ]
+    }
 });

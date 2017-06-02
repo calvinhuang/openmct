@@ -20,135 +20,123 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/MCTChart",
-    "./src/PlotController",
-    "./src/policies/PlotViewPolicy",
-    "./src/PlotOptionsController",
-    "./src/services/ExportImageService",
-    "text!./res/templates/plot.html",
-    "text!./res/templates/plot-options-browse.html",
-    'legacyRegistry'
-], function (
-    MCTChart,
-    PlotController,
-    PlotViewPolicy,
-    PlotOptionsController,
-    exportImageService,
-    plotTemplate,
-    plotOptionsBrowseTemplate,
-    legacyRegistry
-) {
+import MCTChart from './src/MCTChart';
+import PlotController from './src/PlotController';
+import PlotViewPolicy from './src/policies/PlotViewPolicy';
+import PlotOptionsController from './src/PlotOptionsController';
+import exportImageService from './src/services/ExportImageService';
+import plotTemplate from 'raw-loader!./res/templates/plot.html';
+import plotOptionsBrowseTemplate from 'raw-loader!./res/templates/plot-options-browse.html';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/features/plot", {
-        "name": "Plot view for telemetry",
-        "extensions": {
-            "views": [
-                {
-                    "name": "Plot",
-                    "key": "plot",
-                    "cssClass": "icon-sine",
-                    "template": plotTemplate,
-                    "needs": [
-                        "telemetry"
-                    ],
-                    "priority": "preferred",
-                    "delegation": true
-                }
-            ],
-            "directives": [
-                {
-                    "key": "mctChart",
-                    "implementation": MCTChart,
-                    "depends": [
-                        "$interval",
-                        "$log"
-                    ]
-                }
-            ],
-            "controllers": [
-                {
-                    "key": "PlotController",
-                    "implementation": PlotController,
-                    "depends": [
-                        "$scope",
-                        "$element",
-                        "exportImageService",
-                        "telemetryFormatter",
-                        "telemetryHandler",
-                        "throttle",
-                        "PLOT_FIXED_DURATION",
-                        "openmct"
-                    ]
-                },
-                {
-                    "key": "PlotOptionsController",
-                    "implementation": PlotOptionsController,
-                    "depends": [
-                        "$scope"
-                    ]
-                }
-            ],
-            "services": [
-                {
-                    "key": "exportImageService",
-                    "implementation": exportImageService,
-                    "depends": [
-                        "$q",
-                        "$timeout",
-                        "$log",
-                        "EXPORT_IMAGE_TIMEOUT"
-                    ]
+legacyRegistry.register("platform/features/plot", {
+    "name": "Plot view for telemetry",
+    "extensions": {
+        "views": [
+            {
+                "name": "Plot",
+                "key": "plot",
+                "cssClass": "icon-sine",
+                "template": plotTemplate,
+                "needs": [
+                    "telemetry"
+                ],
+                "priority": "preferred",
+                "delegation": true
+            }
+        ],
+        "directives": [
+            {
+                "key": "mctChart",
+                "implementation": MCTChart,
+                "depends": [
+                    "$interval",
+                    "$log"
+                ]
+            }
+        ],
+        "controllers": [
+            {
+                "key": "PlotController",
+                "implementation": PlotController,
+                "depends": [
+                    "$scope",
+                    "$element",
+                    "exportImageService",
+                    "telemetryFormatter",
+                    "telemetryHandler",
+                    "throttle",
+                    "PLOT_FIXED_DURATION",
+                    "openmct"
+                ]
+            },
+            {
+                "key": "PlotOptionsController",
+                "implementation": PlotOptionsController,
+                "depends": [
+                    "$scope"
+                ]
+            }
+        ],
+        "services": [
+            {
+                "key": "exportImageService",
+                "implementation": exportImageService,
+                "depends": [
+                    "$q",
+                    "$timeout",
+                    "$log",
+                    "EXPORT_IMAGE_TIMEOUT"
+                ]
 
-                }
-            ],
-            "constants": [
-                {
-                    "key": "PLOT_FIXED_DURATION",
-                    "value": 900000,
-                    "priority": "fallback",
-                    "comment": "Fifteen minutes."
-                },
-                {
-                    "key": "EXPORT_IMAGE_TIMEOUT",
-                    "value": 500,
-                    "priority": "fallback"
-                }
-            ],
-            "policies": [
-                {
-                    "category": "view",
-                    "implementation": PlotViewPolicy
-                }
-            ],
-            "representations": [
-                {
-                    "key": "plot-options-browse",
-                    "template": plotOptionsBrowseTemplate
-                }
-            ],
-            "licenses": [
-                {
-                    "name": "FileSaver.js",
-                    "version": "0.0.2",
-                    "author": "Eli Grey",
-                    "description": "File download initiator (for file exports)",
-                    "website": "https://github.com/eligrey/FileSaver.js/",
-                    "copyright": "Copyright © 2015 Eli Grey.",
-                    "license": "license-mit",
-                    "link": "https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md"
-                },
-                {
-                    "name": "html2canvas",
-                    "version": "0.4.1",
-                    "author": "Niklas von Hertzen",
-                    "description": "JavaScript HTML renderer",
-                    "website": "https://github.com/niklasvh/html2canvas",
-                    "copyright": "Copyright © 2012 Niklas von Hertzen.",
-                    "license": "license-mit",
-                    "link": "https://github.com/niklasvh/html2canvas/blob/master/LICENSE"
-                }
-            ]
-        }
-    });
+            }
+        ],
+        "constants": [
+            {
+                "key": "PLOT_FIXED_DURATION",
+                "value": 900000,
+                "priority": "fallback",
+                "comment": "Fifteen minutes."
+            },
+            {
+                "key": "EXPORT_IMAGE_TIMEOUT",
+                "value": 500,
+                "priority": "fallback"
+            }
+        ],
+        "policies": [
+            {
+                "category": "view",
+                "implementation": PlotViewPolicy
+            }
+        ],
+        "representations": [
+            {
+                "key": "plot-options-browse",
+                "template": plotOptionsBrowseTemplate
+            }
+        ],
+        "licenses": [
+            {
+                "name": "FileSaver.js",
+                "version": "0.0.2",
+                "author": "Eli Grey",
+                "description": "File download initiator (for file exports)",
+                "website": "https://github.com/eligrey/FileSaver.js/",
+                "copyright": "Copyright © 2015 Eli Grey.",
+                "license": "license-mit",
+                "link": "https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md"
+            },
+            {
+                "name": "html2canvas",
+                "version": "0.4.1",
+                "author": "Niklas von Hertzen",
+                "description": "JavaScript HTML renderer",
+                "website": "https://github.com/niklasvh/html2canvas",
+                "copyright": "Copyright © 2012 Niklas von Hertzen.",
+                "license": "license-mit",
+                "link": "https://github.com/niklasvh/html2canvas/blob/master/LICENSE"
+            }
+        ]
+    }
 });

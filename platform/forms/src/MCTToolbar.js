@@ -23,38 +23,33 @@
 /**
  * Module defining MCTForm. Created by vwoeltje on 11/10/14.
  */
-define(
-    ["./MCTForm", "text!../res/templates/toolbar.html"],
-    function (MCTForm, toolbarTemplate) {
+import MCTForm from './MCTForm';
+import toolbarTemplate from 'raw-loader!../res/templates/toolbar.html';
 
-        /**
-         * The mct-toolbar directive allows generation of displayable
-         * forms based on a declarative description of the form's
-         * structure.
-         *
-         * This directive accepts three attributes:
-         *
-         * * `ng-model`: The model for the form; where user input
-         *   where be stored.
-         * * `structure`: The declarative structure of the toolbar.
-         *   Describes what controls should be shown and where
-         *   their values should be read/written in the model.
-         * * `name`: The name under which to expose the form's
-         *   dirty/valid state. This is similar to ng-form's use
-         *   of name, except this will be made available in the
-         *   parent scope.
-         *
-         * @memberof platform/forms
-         * @constructor
-         */
-        function MCTToolbar() {
-            // Use Directive Definition Object from mct-form,
-            // but use the toolbar's template instead.
-            var ddo = new MCTForm();
-            ddo.template = toolbarTemplate;
-            return ddo;
-        }
-
-        return MCTToolbar;
-    }
-);
+/**
+ * The mct-toolbar directive allows generation of displayable
+ * forms based on a declarative description of the form's
+ * structure.
+ *
+ * This directive accepts three attributes:
+ *
+ * * `ng-model`: The model for the form; where user input
+ *   where be stored.
+ * * `structure`: The declarative structure of the toolbar.
+ *   Describes what controls should be shown and where
+ *   their values should be read/written in the model.
+ * * `name`: The name under which to expose the form's
+ *   dirty/valid state. This is similar to ng-form's use
+ *   of name, except this will be made available in the
+ *   parent scope.
+ *
+ * @memberof platform/forms
+ * @constructor
+ */
+export default function MCTToolbar() {
+    // Use Directive Definition Object from mct-form,
+    // but use the toolbar's template instead.
+    var ddo = new MCTForm();
+    ddo.template = toolbarTemplate;
+    return ddo;
+}

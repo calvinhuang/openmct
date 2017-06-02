@@ -20,6 +20,6 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define(['BundleRegistry'], function (BundleRegistry) {
-    return new BundleRegistry();
-});
+import BundleRegistry from 'BundleRegistry';
+
+export default new BundleRegistry();

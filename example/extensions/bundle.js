@@ -19,33 +19,25 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    "./src/SomeExample",
-    'legacyRegistry'
-], function (
-    SomeExample,
-    legacyRegistry
-) {
-    "use strict";
+import SomeExample from './src/SomeExample';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("example/extensions", {
-        "name": "Custom Extensions Examples",
-        "description": "Example showing how to declare custom extensions.",
-        "sources": "src",
-        "extensions": {
-            "examples": [
-                {
-                    "text": "I came from example/extensions"
-                },
-                {
-                    "implementation": SomeExample,
-                    "depends": [
-                        "exampleService"
-                    ]
-                }
-            ]
-        }
-    });
+legacyRegistry.register("example/extensions", {
+    "name": "Custom Extensions Examples",
+    "description": "Example showing how to declare custom extensions.",
+    "sources": "src",
+    "extensions": {
+        "examples": [
+            {
+                "text": "I came from example/extensions"
+            },
+            {
+                "implementation": SomeExample,
+                "depends": [
+                    "exampleService"
+                ]
+            }
+        ]
+    }
 });

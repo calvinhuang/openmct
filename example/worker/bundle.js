@@ -19,34 +19,26 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    "./src/FibonacciIndicator",
-    'legacyRegistry'
-], function (
-    FibonacciIndicator,
-    legacyRegistry
-) {
-    "use strict";
+import FibonacciIndicator from './src/FibonacciIndicator';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("example/worker", {
-        "extensions": {
-            "indicators": [
-                {
-                    "implementation": FibonacciIndicator,
-                    "depends": [
-                        "workerService",
-                        "$rootScope"
-                    ]
-                }
-            ],
-            "workers": [
-                {
-                    "key": "example.fibonacci",
-                    "scriptUrl": "FibonacciWorker.js"
-                }
-            ]
-        }
-    });
+legacyRegistry.register("example/worker", {
+    "extensions": {
+        "indicators": [
+            {
+                "implementation": FibonacciIndicator,
+                "depends": [
+                    "workerService",
+                    "$rootScope"
+                ]
+            }
+        ],
+        "workers": [
+            {
+                "key": "example.fibonacci",
+                "scriptUrl": "FibonacciWorker.js"
+            }
+        ]
+    }
 });

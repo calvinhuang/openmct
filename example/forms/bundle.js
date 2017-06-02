@@ -19,35 +19,27 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    "./src/ExampleFormController",
-    'legacyRegistry'
-], function (
-    ExampleFormController,
-    legacyRegistry
-) {
-    "use strict";
+import ExampleFormController from './src/ExampleFormController';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("example/forms", {
-        "name": "Declarative Forms example",
-        "sources": "src",
-        "extensions": {
-            "controllers": [
-                {
-                    "key": "ExampleFormController",
-                    "implementation": ExampleFormController,
-                    "depends": [
-                        "$scope"
-                    ]
-                }
-            ],
-            "routes": [
-                {
-                    "templateUrl": "templates/exampleForm.html"
-                }
-            ]
-        }
-    });
+legacyRegistry.register("example/forms", {
+    "name": "Declarative Forms example",
+    "sources": "src",
+    "extensions": {
+        "controllers": [
+            {
+                "key": "ExampleFormController",
+                "implementation": ExampleFormController,
+                "depends": [
+                    "$scope"
+                ]
+            }
+        ],
+        "routes": [
+            {
+                "templateUrl": "templates/exampleForm.html"
+            }
+        ]
+    }
 });

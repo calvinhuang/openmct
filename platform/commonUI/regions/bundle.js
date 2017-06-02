@@ -20,34 +20,27 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    './src/InspectorController',
-    './src/EditableRegionPolicy',
-    'legacyRegistry'
-], function (
-    InspectorController,
-    EditableRegionPolicy,
-    legacyRegistry
-) {
+import InspectorController from './src/InspectorController';
+import EditableRegionPolicy from './src/EditableRegionPolicy';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/commonUI/regions", {
-        "extensions": {
-            "controllers": [
-                {
-                    "key": "InspectorController",
-                    "implementation": InspectorController,
-                    "depends": [
-                        "$scope",
-                        "policyService"
-                    ]
-                }
-            ],
-            "policies": [
-                {
-                    "category": "region",
-                    "implementation": EditableRegionPolicy
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/commonUI/regions", {
+    "extensions": {
+        "controllers": [
+            {
+                "key": "InspectorController",
+                "implementation": InspectorController,
+                "depends": [
+                    "$scope",
+                    "policyService"
+                ]
+            }
+        ],
+        "policies": [
+            {
+                "category": "region",
+                "implementation": EditableRegionPolicy
+            }
+        ]
+    }
 });

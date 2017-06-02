@@ -19,56 +19,46 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    "./src/ExampleController",
-    "./src/ExampleDirective",
-    "./src/ExampleService",
-    'legacyRegistry'
-], function (
-    ExampleController,
-    ExampleDirective,
-    ExampleService,
-    legacyRegistry
-) {
-    "use strict";
+import ExampleController from './src/ExampleController';
+import ExampleDirective from './src/ExampleDirective';
+import ExampleService from './src/ExampleService';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("example/builtins", {
-        "name": "Angular Built-ins Example",
-        "description": "Example showing how to declare extensions with built-in support from Angular.",
-        "sources": "src",
-        "extensions": {
-            "controllers": [
-                {
-                    "key": "ExampleController",
-                    "implementation": ExampleController,
-                    "depends": [
-                        "$scope",
-                        "exampleService"
-                    ]
-                }
-            ],
-            "directives": [
-                {
-                    "key": "exampleDirective",
-                    "implementation": ExampleDirective,
-                    "depends": [
-                        "examples[]"
-                    ]
-                }
-            ],
-            "routes": [
-                {
-                    "templateUrl": "templates/example.html"
-                }
-            ],
-            "services": [
-                {
-                    "key": "exampleService",
-                    "implementation": ExampleService
-                }
-            ]
-        }
-    });
+legacyRegistry.register("example/builtins", {
+    "name": "Angular Built-ins Example",
+    "description": "Example showing how to declare extensions with built-in support from Angular.",
+    "sources": "src",
+    "extensions": {
+        "controllers": [
+            {
+                "key": "ExampleController",
+                "implementation": ExampleController,
+                "depends": [
+                    "$scope",
+                    "exampleService"
+                ]
+            }
+        ],
+        "directives": [
+            {
+                "key": "exampleDirective",
+                "implementation": ExampleDirective,
+                "depends": [
+                    "examples[]"
+                ]
+            }
+        ],
+        "routes": [
+            {
+                "templateUrl": "templates/example.html"
+            }
+        ],
+        "services": [
+            {
+                "key": "exampleService",
+                "implementation": ExampleService
+            }
+        ]
+    }
 });

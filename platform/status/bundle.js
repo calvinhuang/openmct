@@ -20,43 +20,35 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/StatusRepresenter",
-    "./src/StatusCapability",
-    "./src/StatusService",
-    'legacyRegistry'
-], function (
-    StatusRepresenter,
-    StatusCapability,
-    StatusService,
-    legacyRegistry
-) {
+import StatusRepresenter from './src/StatusRepresenter';
+import StatusCapability from './src/StatusCapability';
+import StatusService from './src/StatusService';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/status", {
-        "extensions": {
-            "representers": [
-                {
-                    "implementation": StatusRepresenter
-                }
-            ],
-            "capabilities": [
-                {
-                    "key": "status",
-                    "implementation": StatusCapability,
-                    "depends": [
-                        "statusService"
-                    ]
-                }
-            ],
-            "services": [
-                {
-                    "key": "statusService",
-                    "implementation": StatusService,
-                    "depends": [
-                        "topic"
-                    ]
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/status", {
+    "extensions": {
+        "representers": [
+            {
+                "implementation": StatusRepresenter
+            }
+        ],
+        "capabilities": [
+            {
+                "key": "status",
+                "implementation": StatusCapability,
+                "depends": [
+                    "statusService"
+                ]
+            }
+        ],
+        "services": [
+            {
+                "key": "statusService",
+                "implementation": StatusService,
+                "depends": [
+                    "topic"
+                ]
+            }
+        ]
+    }
 });

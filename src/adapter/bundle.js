@@ -20,147 +20,132 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    'legacyRegistry',
-    './actions/ActionDialogDecorator',
-    './capabilities/AdapterCapability',
-    './controllers/AdaptedViewController',
-    './directives/MCTView',
-    './services/Instantiate',
-    './services/MissingModelCompatibilityDecorator',
-    './capabilities/APICapabilityDecorator',
-    './policies/AdapterCompositionPolicy',
-    './policies/AdaptedViewPolicy',
-    './runs/AlternateCompositionInitializer',
-    'text!./templates/adapted-view-template.html'
-], function (
-    legacyRegistry,
-    ActionDialogDecorator,
-    AdapterCapability,
-    AdaptedViewController,
-    MCTView,
-    Instantiate,
-    MissingModelCompatibilityDecorator,
-    APICapabilityDecorator,
-    AdapterCompositionPolicy,
-    AdaptedViewPolicy,
-    AlternateCompositionInitializer,
-    adaptedViewTemplate
-) {
-    legacyRegistry.register('src/adapter', {
-        "extensions": {
-            "directives": [
-                {
-                    key: "mctView",
-                    implementation: MCTView
-                }
-            ],
-            capabilities: [
-                {
-                    key: "adapter",
-                    implementation: AdapterCapability
-                }
-            ],
-            controllers: [
-                {
-                    key: "AdaptedViewController",
-                    implementation: AdaptedViewController,
-                    depends: [
-                        '$scope',
-                        'openmct'
-                    ]
-                }
-            ],
-            services: [
-                {
-                    key: "instantiate",
-                    priority: "mandatory",
-                    implementation: Instantiate,
-                    depends: [
-                        "capabilityService",
-                        "identifierService",
-                        "cacheService"
-                    ]
-                }
-            ],
-            components: [
-                {
-                    type: "decorator",
-                    provides: "capabilityService",
-                    implementation: APICapabilityDecorator,
-                    depends: [
-                        "$injector"
-                    ]
-                },
-                {
-                    type: "decorator",
-                    provides: "actionService",
-                    implementation: ActionDialogDecorator,
-                    depends: ["openmct"]
-                },
-                {
-                    type: "decorator",
-                    provides: "modelService",
-                    implementation: MissingModelCompatibilityDecorator,
-                    depends: ["openmct"]
-                }
-            ],
-            policies: [
-                {
-                    category: "composition",
-                    implementation: AdapterCompositionPolicy,
-                    depends: ["openmct"]
-                },
-                {
-                    category: "view",
-                    implementation: AdaptedViewPolicy,
-                    depends: ["openmct"]
-                }
-            ],
-            runs: [
-                {
-                    implementation: AlternateCompositionInitializer,
-                    depends: ["openmct"]
-                }
-            ],
-            views: [
-                {
-                    key: "adapted-view",
-                    template: adaptedViewTemplate
-                }
-            ],
-            licenses: [
-                {
-                    "name": "almond",
-                    "version": "0.3.3",
-                    "description": "Lightweight RequireJS replacement for builds",
-                    "author": "jQuery Foundation",
-                    "website": "https://github.com/requirejs/almond",
-                    "copyright": "Copyright jQuery Foundation and other contributors, https://jquery.org/",
-                    "license": "license-mit",
-                    "link": "https://github.com/requirejs/almond/blob/master/LICENSE"
-                },
-                {
-                    "name": "lodash",
-                    "version": "3.10.1",
-                    "description": "Utility functions",
-                    "author": "Dojo Foundation",
-                    "website": "https://lodash.com",
-                    "copyright": "Copyright 2012-2015 The Dojo Foundation",
-                    "license": "license-mit",
-                    "link": "https://raw.githubusercontent.com/lodash/lodash/3.10.1/LICENSE"
-                },
-                {
-                    "name": "EventEmitter3",
-                    "version": "1.2.0",
-                    "description": "Event-driven programming support",
-                    "author": "Arnout Kazemier",
-                    "website": "https://github.com/primus/eventemitter3",
-                    "copyright": "Copyright (c) 2014 Arnout Kazemier",
-                    "license": "license-mit",
-                    "link": "https://github.com/primus/eventemitter3/blob/1.2.0/LICENSE"
-                }
-            ]
-        }
-    });
+import legacyRegistry from 'legacyRegistry';
+import ActionDialogDecorator from './actions/ActionDialogDecorator';
+import AdapterCapability from './capabilities/AdapterCapability';
+import AdaptedViewController from './controllers/AdaptedViewController';
+import MCTView from './directives/MCTView';
+import Instantiate from './services/Instantiate';
+import MissingModelCompatibilityDecorator from './services/MissingModelCompatibilityDecorator';
+import APICapabilityDecorator from './capabilities/APICapabilityDecorator';
+import AdapterCompositionPolicy from './policies/AdapterCompositionPolicy';
+import AdaptedViewPolicy from './policies/AdaptedViewPolicy';
+import AlternateCompositionInitializer from './runs/AlternateCompositionInitializer';
+import adaptedViewTemplate from 'raw-loader!./templates/adapted-view-template.html';
+
+legacyRegistry.register('src/adapter', {
+    "extensions": {
+        "directives": [
+            {
+                key: "mctView",
+                implementation: MCTView
+            }
+        ],
+        capabilities: [
+            {
+                key: "adapter",
+                implementation: AdapterCapability
+            }
+        ],
+        controllers: [
+            {
+                key: "AdaptedViewController",
+                implementation: AdaptedViewController,
+                depends: [
+                    '$scope',
+                    'openmct'
+                ]
+            }
+        ],
+        services: [
+            {
+                key: "instantiate",
+                priority: "mandatory",
+                implementation: Instantiate,
+                depends: [
+                    "capabilityService",
+                    "identifierService",
+                    "cacheService"
+                ]
+            }
+        ],
+        components: [
+            {
+                type: "decorator",
+                provides: "capabilityService",
+                implementation: APICapabilityDecorator,
+                depends: [
+                    "$injector"
+                ]
+            },
+            {
+                type: "decorator",
+                provides: "actionService",
+                implementation: ActionDialogDecorator,
+                depends: ["openmct"]
+            },
+            {
+                type: "decorator",
+                provides: "modelService",
+                implementation: MissingModelCompatibilityDecorator,
+                depends: ["openmct"]
+            }
+        ],
+        policies: [
+            {
+                category: "composition",
+                implementation: AdapterCompositionPolicy,
+                depends: ["openmct"]
+            },
+            {
+                category: "view",
+                implementation: AdaptedViewPolicy,
+                depends: ["openmct"]
+            }
+        ],
+        runs: [
+            {
+                implementation: AlternateCompositionInitializer,
+                depends: ["openmct"]
+            }
+        ],
+        views: [
+            {
+                key: "adapted-view",
+                template: adaptedViewTemplate
+            }
+        ],
+        licenses: [
+            {
+                "name": "almond",
+                "version": "0.3.3",
+                "description": "Lightweight RequireJS replacement for builds",
+                "author": "jQuery Foundation",
+                "website": "https://github.com/requirejs/almond",
+                "copyright": "Copyright jQuery Foundation and other contributors, https://jquery.org/",
+                "license": "license-mit",
+                "link": "https://github.com/requirejs/almond/blob/master/LICENSE"
+            },
+            {
+                "name": "lodash",
+                "version": "3.10.1",
+                "description": "Utility functions",
+                "author": "Dojo Foundation",
+                "website": "https://lodash.com",
+                "copyright": "Copyright 2012-2015 The Dojo Foundation",
+                "license": "license-mit",
+                "link": "https://raw.githubusercontent.com/lodash/lodash/3.10.1/LICENSE"
+            },
+            {
+                "name": "EventEmitter3",
+                "version": "1.2.0",
+                "description": "Event-driven programming support",
+                "author": "Arnout Kazemier",
+                "website": "https://github.com/primus/eventemitter3",
+                "copyright": "Copyright (c) 2014 Arnout Kazemier",
+                "license": "license-mit",
+                "link": "https://github.com/primus/eventemitter3/blob/1.2.0/LICENSE"
+            }
+        ]
+    }
 });

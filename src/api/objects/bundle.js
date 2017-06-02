@@ -19,33 +19,27 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    './LegacyObjectAPIInterceptor',
-    'legacyRegistry'
-], function (
-    LegacyObjectAPIInterceptor,
-    legacyRegistry
-) {
-    legacyRegistry.register('src/api/objects', {
-        name: 'Object API',
-        description: 'The public Objects API',
-        extensions: {
-            components: [
-                {
-                    provides: "objectService",
-                    type: "decorator",
-                    priority: "mandatory",
-                    implementation: LegacyObjectAPIInterceptor,
-                    depends: [
-                        "openmct",
-                        "roots[]",
-                        "instantiate",
-                        "topic"
-                    ]
-                }
-            ]
-        }
-    });
+import LegacyObjectAPIInterceptor from './LegacyObjectAPIInterceptor';
+import legacyRegistry from 'legacyRegistry';
+
+legacyRegistry.register('src/api/objects', {
+    name: 'Object API',
+    description: 'The public Objects API',
+    extensions: {
+        components: [
+            {
+                provides: "objectService",
+                type: "decorator",
+                priority: "mandatory",
+                implementation: LegacyObjectAPIInterceptor,
+                depends: [
+                    "openmct",
+                    "roots[]",
+                    "instantiate",
+                    "topic"
+                ]
+            }
+        ]
+    }
 });

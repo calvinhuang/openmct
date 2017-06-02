@@ -20,61 +20,52 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/policies/ImageryViewPolicy",
-    "./src/controllers/ImageryController",
-    "./src/directives/MCTBackgroundImage",
-    "text!./res/templates/imagery.html",
-    'legacyRegistry'
-], function (
-    ImageryViewPolicy,
-    ImageryController,
-    MCTBackgroundImage,
-    imageryTemplate,
-    legacyRegistry
-) {
+import ImageryViewPolicy from './src/policies/ImageryViewPolicy';
+import ImageryController from './src/controllers/ImageryController';
+import MCTBackgroundImage from './src/directives/MCTBackgroundImage';
+import imageryTemplate from 'raw-loader!./res/templates/imagery.html';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/features/imagery", {
-        "name": "Plot view for telemetry",
-        "extensions": {
-            "views": [
-                {
-                    "name": "Imagery",
-                    "key": "imagery",
-                    "cssClass": "icon-image",
-                    "template": imageryTemplate,
-                    "priority": "preferred",
-                    "needs": [
-                        "telemetry"
-                    ],
-                    "editable": false
-                }
-            ],
-            "policies": [
-                {
-                    "category": "view",
-                    "implementation": ImageryViewPolicy
-                }
-            ],
-            "controllers": [
-                {
-                    "key": "ImageryController",
-                    "implementation": ImageryController,
-                    "depends": [
-                        "$scope",
-                        "telemetryHandler"
-                    ]
-                }
-            ],
-            "directives": [
-                {
-                    "key": "mctBackgroundImage",
-                    "implementation": MCTBackgroundImage,
-                    "depends": [
-                        "$document"
-                    ]
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/features/imagery", {
+    "name": "Plot view for telemetry",
+    "extensions": {
+        "views": [
+            {
+                "name": "Imagery",
+                "key": "imagery",
+                "cssClass": "icon-image",
+                "template": imageryTemplate,
+                "priority": "preferred",
+                "needs": [
+                    "telemetry"
+                ],
+                "editable": false
+            }
+        ],
+        "policies": [
+            {
+                "category": "view",
+                "implementation": ImageryViewPolicy
+            }
+        ],
+        "controllers": [
+            {
+                "key": "ImageryController",
+                "implementation": ImageryController,
+                "depends": [
+                    "$scope",
+                    "telemetryHandler"
+                ]
+            }
+        ],
+        "directives": [
+            {
+                "key": "mctBackgroundImage",
+                "implementation": MCTBackgroundImage,
+                "depends": [
+                    "$document"
+                ]
+            }
+        ]
+    }
 });

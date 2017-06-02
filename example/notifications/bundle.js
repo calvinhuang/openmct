@@ -19,68 +19,57 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    "./src/DialogLaunchController",
-    "./src/NotificationLaunchController",
-    "./src/DialogLaunchIndicator",
-    "./src/NotificationLaunchIndicator",
-    'legacyRegistry'
-], function (
-    DialogLaunchController,
-    NotificationLaunchController,
-    DialogLaunchIndicator,
-    NotificationLaunchIndicator,
-    legacyRegistry
-) {
-    "use strict";
+import DialogLaunchController from './src/DialogLaunchController';
+import NotificationLaunchController from './src/NotificationLaunchController';
+import DialogLaunchIndicator from './src/DialogLaunchIndicator';
+import NotificationLaunchIndicator from './src/NotificationLaunchIndicator';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("example/notifications", {
-        "extensions": {
-            "templates": [
-                {
-                    "key": "dialogLaunchTemplate",
-                    "templateUrl": "dialog-launch.html"
-                },
-                {
-                    "key": "notificationLaunchTemplate",
-                    "templateUrl": "notification-launch.html"
-                }
-            ],
-            "controllers": [
-                {
-                    "key": "DialogLaunchController",
-                    "implementation": DialogLaunchController,
-                    "depends": [
-                        "$scope",
-                        "$timeout",
-                        "$log",
-                        "dialogService",
-                        "notificationService"
-                    ]
-                },
-                {
-                    "key": "NotificationLaunchController",
-                    "implementation": NotificationLaunchController,
-                    "depends": [
-                        "$scope",
-                        "$timeout",
-                        "$log",
-                        "notificationService"
-                    ]
-                }
-            ],
-            "indicators": [
-                {
-                    "implementation": DialogLaunchIndicator,
-                    "priority": "fallback"
-                },
-                {
-                    "implementation": NotificationLaunchIndicator,
-                    "priority": "fallback"
-                }
-            ]
-        }
-    });
+legacyRegistry.register("example/notifications", {
+    "extensions": {
+        "templates": [
+            {
+                "key": "dialogLaunchTemplate",
+                "templateUrl": "dialog-launch.html"
+            },
+            {
+                "key": "notificationLaunchTemplate",
+                "templateUrl": "notification-launch.html"
+            }
+        ],
+        "controllers": [
+            {
+                "key": "DialogLaunchController",
+                "implementation": DialogLaunchController,
+                "depends": [
+                    "$scope",
+                    "$timeout",
+                    "$log",
+                    "dialogService",
+                    "notificationService"
+                ]
+            },
+            {
+                "key": "NotificationLaunchController",
+                "implementation": NotificationLaunchController,
+                "depends": [
+                    "$scope",
+                    "$timeout",
+                    "$log",
+                    "notificationService"
+                ]
+            }
+        ],
+        "indicators": [
+            {
+                "implementation": DialogLaunchIndicator,
+                "priority": "fallback"
+            },
+            {
+                "implementation": NotificationLaunchIndicator,
+                "priority": "fallback"
+            }
+        ]
+    }
 });

@@ -20,47 +20,40 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/MCTDevice",
-    "./src/AgentService",
-    "./src/DeviceClassifier",
-    'legacyRegistry'
-], function (
-    MCTDevice,
-    AgentService,
-    DeviceClassifier,
-    legacyRegistry
-) {
 
-    legacyRegistry.register("platform/commonUI/mobile", {
-        "extensions": {
-            "directives": [
-                {
-                    "key": "mctDevice",
-                    "implementation": MCTDevice,
-                    "depends": [
-                        "agentService"
-                    ]
-                }
-            ],
-            "services": [
-                {
-                    "key": "agentService",
-                    "implementation": AgentService,
-                    "depends": [
-                        "$window"
-                    ]
-                }
-            ],
-            "runs": [
-                {
-                    "implementation": DeviceClassifier,
-                    "depends": [
-                        "agentService",
-                        "$document"
-                    ]
-                }
-            ]
-        }
-    });
+import MCTDevice from './src/MCTDevice';
+import AgentService from './src/AgentService';
+import DeviceClassifier from './src/DeviceClassifier';
+import legacyRegistry from 'legacyRegistry';
+
+legacyRegistry.register("platform/commonUI/mobile", {
+    "extensions": {
+        "directives": [
+            {
+                "key": "mctDevice",
+                "implementation": MCTDevice,
+                "depends": [
+                    "agentService"
+                ]
+            }
+        ],
+        "services": [
+            {
+                "key": "agentService",
+                "implementation": AgentService,
+                "depends": [
+                    "$window"
+                ]
+            }
+        ],
+        "runs": [
+            {
+                "implementation": DeviceClassifier,
+                "depends": [
+                    "agentService",
+                    "$document"
+                ]
+            }
+        ]
+    }
 });

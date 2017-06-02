@@ -21,7 +21,7 @@
  *****************************************************************************/
 
 
-import $ from 'zepto';
+import $ from 'webpack-zepto';
 import nodeTemplate from 'raw-loader!../../res/templates/tree/node.html';
 import ToggleView from './ToggleView';
 import TreeLabelView from './TreeLabelView';

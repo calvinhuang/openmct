@@ -20,149 +20,133 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/MCTInclude",
-    "./src/MCTRepresentation",
-    "./src/gestures/DragGesture",
-    "./src/gestures/DropGesture",
-    "./src/gestures/ContextMenuGesture",
-    "./src/gestures/GestureProvider",
-    "./src/gestures/GestureRepresenter",
-    "./src/services/DndService",
-    "./src/TemplateLinker",
-    "./src/actions/ContextMenuAction",
-    "./src/TemplatePrefetcher",
-    'legacyRegistry'
-], function (
-    MCTInclude,
-    MCTRepresentation,
-    DragGesture,
-    DropGesture,
-    ContextMenuGesture,
-    GestureProvider,
-    GestureRepresenter,
-    DndService,
-    TemplateLinker,
-    ContextMenuAction,
-    TemplatePrefetcher,
-    legacyRegistry
-) {
+import MCTInclude from './src/MCTInclude';
+import MCTRepresentation from './src/MCTRepresentation';
+import DragGesture from './src/gestures/DragGesture';
+import DropGesture from './src/gestures/DropGesture';
+import ContextMenuGesture from './src/gestures/ContextMenuGesture';
+import GestureProvider from './src/gestures/GestureProvider';
+import GestureRepresenter from './src/gestures/GestureRepresenter';
+import DndService from './src/services/DndService';
+import TemplateLinker from './src/TemplateLinker';
+import ContextMenuAction from './src/actions/ContextMenuAction';
+import TemplatePrefetcher from './src/TemplatePrefetcher';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/representation", {
-        "extensions": {
-            "directives": [
-                {
-                    "key": "mctInclude",
-                    "implementation": MCTInclude,
-                    "depends": [
-                        "templates[]",
-                        "templateLinker"
-                    ]
-                },
-                {
-                    "key": "mctRepresentation",
-                    "implementation": MCTRepresentation,
-                    "depends": [
-                        "representations[]",
-                        "views[]",
-                        "representers[]",
-                        "$q",
-                        "templateLinker",
-                        "$log"
-                    ]
-                }
-            ],
-            "gestures": [
-                {
-                    "key": "drag",
-                    "implementation": DragGesture,
-                    "depends": [
-                        "$log",
-                        "dndService"
-                    ]
-                },
-                {
-                    "key": "drop",
-                    "implementation": DropGesture,
-                    "depends": [
-                        "dndService",
-                        "$q"
-                    ]
-                },
-                {
-                    "key": "menu",
-                    "implementation": ContextMenuGesture,
-                    "depends": [
-                        "$timeout",
-                        "agentService"
-                    ]
-                }
-            ],
-            "components": [
-                {
-                    "provides": "gestureService",
-                    "type": "provider",
-                    "implementation": GestureProvider,
-                    "depends": [
-                        "gestures[]"
-                    ]
-                }
-            ],
-            "representers": [
-                {
-                    "implementation": GestureRepresenter,
-                    "depends": [
-                        "gestureService"
-                    ]
-                }
-            ],
-            "services": [
-                {
-                    "key": "dndService",
-                    "implementation": DndService,
-                    "depends": [
-                        "$log"
-                    ]
-                },
-                {
-                    "key": "templateLinker",
-                    "implementation": TemplateLinker,
-                    "depends": [
-                        "$templateRequest",
-                        "$sce",
-                        "$compile",
-                        "$log"
-                    ],
-                    "comment": "For internal use by mct-include and mct-representation."
-                }
-            ],
-            "actions": [
-                {
-                    "key": "menu",
-                    "implementation": ContextMenuAction,
-                    "depends": [
-                        "$compile",
-                        "$document",
-                        "$rootScope",
-                        "popupService",
-                        "agentService"
-                    ]
-                }
-            ],
-            "runs": [
-                {
-                    "priority": "mandatory",
-                    "implementation": TemplatePrefetcher,
-                    "depends": [
-                        "templateLinker",
-                        "templates[]",
-                        "views[]",
-                        "representations[]",
-                        "controls[]",
-                        "containers[]"
-                    ]
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/representation", {
+    "extensions": {
+        "directives": [
+            {
+                "key": "mctInclude",
+                "implementation": MCTInclude,
+                "depends": [
+                    "templates[]",
+                    "templateLinker"
+                ]
+            },
+            {
+                "key": "mctRepresentation",
+                "implementation": MCTRepresentation,
+                "depends": [
+                    "representations[]",
+                    "views[]",
+                    "representers[]",
+                    "$q",
+                    "templateLinker",
+                    "$log"
+                ]
+            }
+        ],
+        "gestures": [
+            {
+                "key": "drag",
+                "implementation": DragGesture,
+                "depends": [
+                    "$log",
+                    "dndService"
+                ]
+            },
+            {
+                "key": "drop",
+                "implementation": DropGesture,
+                "depends": [
+                    "dndService",
+                    "$q"
+                ]
+            },
+            {
+                "key": "menu",
+                "implementation": ContextMenuGesture,
+                "depends": [
+                    "$timeout",
+                    "agentService"
+                ]
+            }
+        ],
+        "components": [
+            {
+                "provides": "gestureService",
+                "type": "provider",
+                "implementation": GestureProvider,
+                "depends": [
+                    "gestures[]"
+                ]
+            }
+        ],
+        "representers": [
+            {
+                "implementation": GestureRepresenter,
+                "depends": [
+                    "gestureService"
+                ]
+            }
+        ],
+        "services": [
+            {
+                "key": "dndService",
+                "implementation": DndService,
+                "depends": [
+                    "$log"
+                ]
+            },
+            {
+                "key": "templateLinker",
+                "implementation": TemplateLinker,
+                "depends": [
+                    "$templateRequest",
+                    "$sce",
+                    "$compile",
+                    "$log"
+                ],
+                "comment": "For internal use by mct-include and mct-representation."
+            }
+        ],
+        "actions": [
+            {
+                "key": "menu",
+                "implementation": ContextMenuAction,
+                "depends": [
+                    "$compile",
+                    "$document",
+                    "$rootScope",
+                    "popupService",
+                    "agentService"
+                ]
+            }
+        ],
+        "runs": [
+            {
+                "priority": "mandatory",
+                "implementation": TemplatePrefetcher,
+                "depends": [
+                    "templateLinker",
+                    "templates[]",
+                    "views[]",
+                    "representations[]",
+                    "controls[]",
+                    "containers[]"
+                ]
+            }
+        ]
+    }
 });

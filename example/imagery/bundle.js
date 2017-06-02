@@ -19,62 +19,54 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    "./src/ImageTelemetryProvider",
-    'legacyRegistry'
-], function (
-    ImageTelemetryProvider,
-    legacyRegistry
-) {
-    "use strict";
+import ImageTelemetryProvider from './src/ImageTelemetryProvider';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("example/imagery", {
-        "name": "Imagery",
-        "description": "Example of a component that produces image telemetry.",
-        "extensions": {
-            "components": [
-                {
-                    "implementation": ImageTelemetryProvider,
-                    "type": "provider",
-                    "provides": "telemetryService",
-                    "depends": [
-                        "$q",
-                        "$timeout"
+legacyRegistry.register("example/imagery", {
+    "name": "Imagery",
+    "description": "Example of a component that produces image telemetry.",
+    "extensions": {
+        "components": [
+            {
+                "implementation": ImageTelemetryProvider,
+                "type": "provider",
+                "provides": "telemetryService",
+                "depends": [
+                    "$q",
+                    "$timeout"
+                ]
+            }
+        ],
+        "types": [
+            {
+                "key": "imagery",
+                "name": "Example Imagery",
+                "cssClass": "icon-image",
+                "features": "creation",
+                "description": "For development use. Creates example imagery data that mimics a live imagery stream.",
+                "priority": 10,
+                "model": {
+                    "telemetry": {}
+                },
+                "telemetry": {
+                    "source": "imagery",
+                    "domains": [
+                        {
+                            "name": "Time",
+                            "key": "time",
+                            "format": "utc"
+                        }
+                    ],
+                    "ranges": [
+                        {
+                            "name": "Image",
+                            "key": "url",
+                            "format": "imageUrl"
+                        }
                     ]
                 }
-            ],
-            "types": [
-                {
-                    "key": "imagery",
-                    "name": "Example Imagery",
-                    "cssClass": "icon-image",
-                    "features": "creation",
-                    "description": "For development use. Creates example imagery data that mimics a live imagery stream.",
-                    "priority": 10,
-                    "model": {
-                        "telemetry": {}
-                    },
-                    "telemetry": {
-                        "source": "imagery",
-                        "domains": [
-                            {
-                                "name": "Time",
-                                "key": "time",
-                                "format": "utc"
-                            }
-                        ],
-                        "ranges": [
-                            {
-                                "name": "Image",
-                                "key": "url",
-                                "format": "imageUrl"
-                            }
-                        ]
-                    }
-                }
-            ]
-        }
-    });
+            }
+        ]
+    }
 });

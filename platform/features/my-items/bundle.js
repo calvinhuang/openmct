@@ -20,32 +20,27 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    'legacyRegistry'
-], function (
-    legacyRegistry
-) {
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/features/my-items", {
-        "name": "My Items",
-        "description": "Defines a root named My Items",
-        "extensions": {
-            "roots": [
-                {
-                    "id": "mine"
+legacyRegistry.register("platform/features/my-items", {
+    "name": "My Items",
+    "description": "Defines a root named My Items",
+    "extensions": {
+        "roots": [
+            {
+                "id": "mine"
+            }
+        ],
+        "models": [
+            {
+                "id": "mine",
+                "model": {
+                    "name": "My Items",
+                    "type": "folder",
+                    "composition": [],
+                    "location": "ROOT"
                 }
-            ],
-            "models": [
-                {
-                    "id": "mine",
-                    "model": {
-                        "name": "My Items",
-                        "type": "folder",
-                        "composition": [],
-                        "location": "ROOT"
-                    }
-                }
-            ]
-        }
-    });
+            }
+        ]
+    }
 });

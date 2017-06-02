@@ -21,7 +21,7 @@
  *****************************************************************************/
 
 
-import $ from 'zepto';
+import $ from 'webpack-zepto';
 import TreeNodeView from './TreeNodeView';
 import spinnerTemplate from 'raw-loader!../../res/templates/tree/wait-node.html';
 

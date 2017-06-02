@@ -20,106 +20,93 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/controllers/SearchController",
-    "./src/controllers/SearchMenuController",
-    "./src/services/GenericSearchProvider",
-    "./src/services/SearchAggregator",
-    "text!./res/templates/search-item.html",
-    "text!./res/templates/search.html",
-    "text!./res/templates/search-menu.html",
-    "text!./src/services/GenericSearchWorker.js",
-    'legacyRegistry'
-], function (
-    SearchController,
-    SearchMenuController,
-    GenericSearchProvider,
-    SearchAggregator,
-    searchItemTemplate,
-    searchTemplate,
-    searchMenuTemplate,
-    searchWorkerText,
-    legacyRegistry
-) {
+import SearchController from './src/controllers/SearchController';
+import SearchMenuController from './src/controllers/SearchMenuController';
+import GenericSearchProvider from './src/services/GenericSearchProvider';
+import SearchAggregator from './src/services/SearchAggregator';
+import searchItemTemplate from 'raw-loader!./res/templates/search-item.html';
+import searchTemplate from 'raw-loader!./res/templates/search.html';
+import searchMenuTemplate from 'raw-loader!./res/templates/search-menu.html';
+import searchWorkerText from 'raw-loader!./src/services/GenericSearchWorker.js';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/search", {
-        "name": "Search",
-        "description": "Allows the user to search through the file tree.",
-        "extensions": {
-            "constants": [
-                {
-                    "key": "GENERIC_SEARCH_ROOTS",
-                    "value": [
-                        "ROOT"
-                    ],
-                    "priority": "fallback"
-                }
-            ],
-            "controllers": [
-                {
-                    "key": "SearchController",
-                    "implementation": SearchController,
-                    "depends": [
-                        "$scope",
-                        "searchService"
-                    ]
-                },
-                {
-                    "key": "SearchMenuController",
-                    "implementation": SearchMenuController,
-                    "depends": [
-                        "$scope",
-                        "types[]"
-                    ]
-                }
-            ],
-            "representations": [
-                {
-                    "key": "search-item",
-                    "template": searchItemTemplate
-                }
-            ],
-            "templates": [
-                {
-                    "key": "search",
-                    "template": searchTemplate
-                },
-                {
-                    "key": "search-menu",
-                    "template": searchMenuTemplate
-                }
-            ],
-            "components": [
-                {
-                    "provides": "searchService",
-                    "type": "provider",
-                    "implementation": GenericSearchProvider,
-                    "depends": [
-                        "$q",
-                        "$log",
-                        "modelService",
-                        "workerService",
-                        "topic",
-                        "GENERIC_SEARCH_ROOTS",
-                        "openmct"
-                    ]
-                },
-                {
-                    "provides": "searchService",
-                    "type": "aggregator",
-                    "implementation": SearchAggregator,
-                    "depends": [
-                        "$q",
-                        "objectService"
-                    ]
-                }
-            ],
-            "workers": [
-                {
-                    "key": "genericSearchWorker",
-                    "scriptText": searchWorkerText
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/search", {
+    "name": "Search",
+    "description": "Allows the user to search through the file tree.",
+    "extensions": {
+        "constants": [
+            {
+                "key": "GENERIC_SEARCH_ROOTS",
+                "value": [
+                    "ROOT"
+                ],
+                "priority": "fallback"
+            }
+        ],
+        "controllers": [
+            {
+                "key": "SearchController",
+                "implementation": SearchController,
+                "depends": [
+                    "$scope",
+                    "searchService"
+                ]
+            },
+            {
+                "key": "SearchMenuController",
+                "implementation": SearchMenuController,
+                "depends": [
+                    "$scope",
+                    "types[]"
+                ]
+            }
+        ],
+        "representations": [
+            {
+                "key": "search-item",
+                "template": searchItemTemplate
+            }
+        ],
+        "templates": [
+            {
+                "key": "search",
+                "template": searchTemplate
+            },
+            {
+                "key": "search-menu",
+                "template": searchMenuTemplate
+            }
+        ],
+        "components": [
+            {
+                "provides": "searchService",
+                "type": "provider",
+                "implementation": GenericSearchProvider,
+                "depends": [
+                    "$q",
+                    "$log",
+                    "modelService",
+                    "workerService",
+                    "topic",
+                    "GENERIC_SEARCH_ROOTS",
+                    "openmct"
+                ]
+            },
+            {
+                "provides": "searchService",
+                "type": "aggregator",
+                "implementation": SearchAggregator,
+                "depends": [
+                    "$q",
+                    "objectService"
+                ]
+            }
+        ],
+        "workers": [
+            {
+                "key": "genericSearchWorker",
+                "scriptText": searchWorkerText
+            }
+        ]
+    }
 });

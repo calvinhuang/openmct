@@ -19,27 +19,22 @@
  * this source code distribution or the Licensing information page available
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
-/*global define*/
 
-define([
-    'legacyRegistry',
-    './ExportTelemetryAsCSVAction'
-], function (legacyRegistry, ExportTelemetryAsCSVAction) {
-    "use strict";
+import legacyRegistry from 'legacyRegistry';
+import ExportTelemetryAsCSVAction from './ExportTelemetryAsCSVAction';
 
-    legacyRegistry.register("example/export", {
-        "name": "Example of using CSV Export",
-        "extensions": {
-            "actions": [
-                {
-                    "key": "example.export",
-                    "name": "Export Telemetry as CSV",
-                    "implementation": ExportTelemetryAsCSVAction,
-                    "category": "contextual",
-                    "cssClass": "icon-download",
-                    "depends": [ "exportService" ]
-                }
-            ]
-        }
-    });
+legacyRegistry.register("example/export", {
+    "name": "Example of using CSV Export",
+    "extensions": {
+        "actions": [
+            {
+                "key": "example.export",
+                "name": "Export Telemetry as CSV",
+                "implementation": ExportTelemetryAsCSVAction,
+                "category": "contextual",
+                "cssClass": "icon-download",
+                "depends": [ "exportService" ]
+            }
+        ]
+    }
 });

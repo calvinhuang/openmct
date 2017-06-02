@@ -20,110 +20,99 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/TelemetryAggregator",
-    "./src/TelemetryController",
-    "./src/TelemetryCapability",
-    "./src/TelemetryFormatter",
-    "./src/TelemetrySubscriber",
-    "./src/TelemetryHandler",
-    'legacyRegistry'
-], function (
-    TelemetryAggregator,
-    TelemetryController,
-    TelemetryCapability,
-    TelemetryFormatter,
-    TelemetrySubscriber,
-    TelemetryHandler,
-    legacyRegistry
-) {
+import TelemetryAggregator from './src/TelemetryAggregator';
+import TelemetryController from './src/TelemetryController';
+import TelemetryCapability from './src/TelemetryCapability';
+import TelemetryFormatter from './src/TelemetryFormatter';
+import TelemetrySubscriber from './src/TelemetrySubscriber';
+import TelemetryHandler from './src/TelemetryHandler';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/telemetry", {
-        "name": "Data bundle",
-        "description": "Interfaces and infrastructure for real-time and historical data",
-        "configuration": {
-            "paths": {
-                "moment": "moment.min"
-            },
-            "shim": {
-                "moment": {
-                    "exports": "moment"
-                }
-            }
+legacyRegistry.register("platform/telemetry", {
+    "name": "Data bundle",
+    "description": "Interfaces and infrastructure for real-time and historical data",
+    "configuration": {
+        "paths": {
+            "moment": "moment.min"
         },
-        "extensions": {
-            "components": [
-                {
-                    "provides": "telemetryService",
-                    "type": "aggregator",
-                    "implementation": TelemetryAggregator,
-                    "depends": [
-                        "$q"
-                    ]
-                }
-            ],
-            "controllers": [
-                {
-                    "key": "TelemetryController",
-                    "implementation": TelemetryController,
-                    "depends": [
-                        "$scope",
-                        "$q",
-                        "$timeout",
-                        "$log"
-                    ]
-                }
-            ],
-            "capabilities": [
-                {
-                    "key": "telemetry",
-                    "implementation": TelemetryCapability,
-                    "depends": [
-                        "openmct",
-                        "$injector",
-                        "$q",
-                        "$log"
-                    ]
-                }
-            ],
-            "services": [
-                {
-                    "key": "telemetryFormatter",
-                    "implementation": TelemetryFormatter,
-                    "depends": [
-                        "formatService",
-                        "DEFAULT_TIME_FORMAT"
-                    ]
-                },
-                {
-                    "key": "telemetrySubscriber",
-                    "implementation": TelemetrySubscriber,
-                    "depends": [
-                        "$q",
-                        "$timeout"
-                    ]
-                },
-                {
-                    "key": "telemetryHandler",
-                    "implementation": TelemetryHandler,
-                    "depends": [
-                        "$q",
-                        "telemetrySubscriber"
-                    ]
-                }
-            ],
-            "licenses": [
-                {
-                    "name": "Moment.js",
-                    "version": "2.11.1",
-                    "author": "Tim Wood, Iskren Chernev, Moment.js contributors",
-                    "description": "Time/date parsing/formatting",
-                    "website": "http://momentjs.com",
-                    "copyright": "Copyright (c) 2011-2014 Tim Wood, Iskren Chernev, Moment.js contributors",
-                    "license": "license-mit",
-                    "link": "https://raw.githubusercontent.com/moment/moment/develop/LICENSE"
-                }
-            ]
+        "shim": {
+            "moment": {
+                "exports": "moment"
+            }
         }
-    });
+    },
+    "extensions": {
+        "components": [
+            {
+                "provides": "telemetryService",
+                "type": "aggregator",
+                "implementation": TelemetryAggregator,
+                "depends": [
+                    "$q"
+                ]
+            }
+        ],
+        "controllers": [
+            {
+                "key": "TelemetryController",
+                "implementation": TelemetryController,
+                "depends": [
+                    "$scope",
+                    "$q",
+                    "$timeout",
+                    "$log"
+                ]
+            }
+        ],
+        "capabilities": [
+            {
+                "key": "telemetry",
+                "implementation": TelemetryCapability,
+                "depends": [
+                    "openmct",
+                    "$injector",
+                    "$q",
+                    "$log"
+                ]
+            }
+        ],
+        "services": [
+            {
+                "key": "telemetryFormatter",
+                "implementation": TelemetryFormatter,
+                "depends": [
+                    "formatService",
+                    "DEFAULT_TIME_FORMAT"
+                ]
+            },
+            {
+                "key": "telemetrySubscriber",
+                "implementation": TelemetrySubscriber,
+                "depends": [
+                    "$q",
+                    "$timeout"
+                ]
+            },
+            {
+                "key": "telemetryHandler",
+                "implementation": TelemetryHandler,
+                "depends": [
+                    "$q",
+                    "telemetrySubscriber"
+                ]
+            }
+        ],
+        "licenses": [
+            {
+                "name": "Moment.js",
+                "version": "2.11.1",
+                "author": "Tim Wood, Iskren Chernev, Moment.js contributors",
+                "description": "Time/date parsing/formatting",
+                "website": "http://momentjs.com",
+                "copyright": "Copyright (c) 2011-2014 Tim Wood, Iskren Chernev, Moment.js contributors",
+                "license": "license-mit",
+                "link": "https://raw.githubusercontent.com/moment/moment/develop/LICENSE"
+            }
+        ]
+    }
 });

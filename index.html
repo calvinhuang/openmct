@@ -25,29 +25,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title></title>
-    <script src="bower_components/requirejs/require.js">
-    </script>
-    <script>
-        var THIRTY_MINUTES = 30 * 60 * 1000;
-
-        require(['openmct'], function (openmct) {
-            [
-                'example/imagery',
-                'example/eventGenerator',
-                'example/styleguide'
-            ].forEach(
-                openmct.legacyRegistry.enable.bind(openmct.legacyRegistry)
-            );
-            openmct.install(openmct.plugins.MyItems());
-            openmct.install(openmct.plugins.LocalStorage());
-            openmct.install(openmct.plugins.Espresso());
-            openmct.install(openmct.plugins.Generator());
-            openmct.install(openmct.plugins.UTCTimeSystem());
-            openmct.time.clock('local', {start: -THIRTY_MINUTES, end: 0});
-            openmct.time.timeSystem('utc');
-            openmct.start();
-        });
-    </script>
     <link rel="stylesheet" href="platform/commonUI/general/res/css/startup-base.css">
     <link rel="stylesheet" href="platform/commonUI/general/res/css/openmct.css">
     <link rel="icon" type="image/png" href="platform/commonUI/general/res/images/favicons/favicon-32x32.png" sizes="32x32">
@@ -59,5 +36,6 @@
     <div class="l-splash-holder s-splash-holder">
         <div class="l-splash s-splash"></div>
     </div>
+    <script src="dist/bundle.js"></script>
 </body>
 </html>

@@ -20,68 +20,63 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    './WorkerInterface'
-], function (
-    WorkerInterface
-) {
+import WorkerInterface from './WorkerInterface';
 
-    var REQUEST_DEFAULTS = {
-        amplitude: 1,
-        period: 10,
-        offset: 0,
-        dataRateInHz: 1
-    };
+var REQUEST_DEFAULTS = {
+    amplitude: 1,
+    period: 10,
+    offset: 0,
+    dataRateInHz: 1
+};
 
-    function GeneratorProvider() {
-        this.workerInterface = new WorkerInterface();
-    }
+function GeneratorProvider() {
+    this.workerInterface = new WorkerInterface();
+}
 
-    GeneratorProvider.prototype.canProvideTelemetry = function (domainObject) {
-        return domainObject.type === 'generator';
-    };
+GeneratorProvider.prototype.canProvideTelemetry = function (domainObject) {
+    return domainObject.type === 'generator';
+};
 
-    GeneratorProvider.prototype.supportsRequest =
-        GeneratorProvider.prototype.supportsSubscribe =
-            GeneratorProvider.prototype.canProvideTelemetry;
+GeneratorProvider.prototype.supportsRequest =
+    GeneratorProvider.prototype.supportsSubscribe =
+        GeneratorProvider.prototype.canProvideTelemetry;
 
-    GeneratorProvider.prototype.makeWorkerRequest = function (domainObject, request) {
-        var props = [
-            'amplitude',
-            'period',
-            'offset',
-            'dataRateInHz'
-        ];
+GeneratorProvider.prototype.makeWorkerRequest = function (domainObject, request) {
+    var props = [
+        'amplitude',
+        'period',
+        'offset',
+        'dataRateInHz'
+    ];
 
-        var workerRequest = {};
+    var workerRequest = {};
 
-        props.forEach(function (prop) {
-            if (domainObject.telemetry && domainObject.telemetry.hasOwnProperty(prop)) {
-                workerRequest[prop] = domainObject.telemetry[prop];
-            }
-            if (request.hasOwnProperty(prop)) {
-                workerRequest[prop] = request[prop];
-            }
-            if (!workerRequest[prop]) {
-                workerRequest[prop] = REQUEST_DEFAULTS[prop];
-            }
-            workerRequest[prop] = Number(workerRequest[prop]);
-        });
+    props.forEach(function (prop) {
+        if (domainObject.telemetry && domainObject.telemetry.hasOwnProperty(prop)) {
+            workerRequest[prop] = domainObject.telemetry[prop];
+        }
+        if (request.hasOwnProperty(prop)) {
+            workerRequest[prop] = request[prop];
+        }
+        if (!workerRequest[prop]) {
+            workerRequest[prop] = REQUEST_DEFAULTS[prop];
+        }
+        workerRequest[prop] = Number(workerRequest[prop]);
+    });
 
-        return workerRequest;
-    };
+    return workerRequest;
+};
 
-    GeneratorProvider.prototype.request = function (domainObject, request) {
-        var workerRequest = this.makeWorkerRequest(domainObject, request);
-        workerRequest.start = request.start;
-        workerRequest.end = request.end;
-        return this.workerInterface.request(workerRequest);
-    };
+GeneratorProvider.prototype.request = function (domainObject, request) {
+    var workerRequest = this.makeWorkerRequest(domainObject, request);
+    workerRequest.start = request.start;
+    workerRequest.end = request.end;
+    return this.workerInterface.request(workerRequest);
+};
 
-    GeneratorProvider.prototype.subscribe = function (domainObject, callback, request) {
-        var workerRequest = this.makeWorkerRequest(domainObject, request);
-        return this.workerInterface.subscribe(workerRequest, callback);
-    };
+GeneratorProvider.prototype.subscribe = function (domainObject, callback, request) {
+    var workerRequest = this.makeWorkerRequest(domainObject, request);
+    return this.workerInterface.subscribe(workerRequest, callback);
+};
 
-    return GeneratorProvider;
-});
+export default GeneratorProvider;

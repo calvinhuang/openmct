@@ -20,58 +20,51 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/EmbeddedPageController",
-    "text!./res/iframe.html",
-    'legacyRegistry'
-], function (
-    EmbeddedPageController,
-    iframeTemplate,
-    legacyRegistry
-) {
+import EmbeddedPageController from './src/EmbeddedPageController';
+import iframeTemplate from 'raw-loader!./res/iframe.html';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/features/pages", {
-        "extensions": {
-            "types": [
-                {
-                    "key": "example.page",
-                    "name": "Web Page",
-                    "cssClass": "icon-page",
-                    "description": "Embed a web page or web-based image in a resizeable window component. Can be added to Display Layouts. Note that the URL being embedded must allow iframing.",
-                    "priority": 50,
-                    "features": [
-                        "creation"
-                    ],
-                    "properties": [
-                        {
-                            "key": "url",
-                            "name": "URL",
-                            "control": "textfield",
-                            "pattern": "^(ftp|https?)\\:\\/\\/",
-                            "required": true,
-                            "cssClass": "l-input-lg"
-                        }
-                    ]
-                }
-            ],
-            "views": [
-                {
-                    "template": iframeTemplate,
-                    "name": "Page",
-                    "type": "example.page",
-                    "key": "example.page",
-                    "editable": false
-                }
-            ],
-            "controllers": [
-                {
-                    "key": "EmbeddedPageController",
-                    "implementation": EmbeddedPageController,
-                    "depends": [
-                        "$sce"
-                    ]
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/features/pages", {
+    "extensions": {
+        "types": [
+            {
+                "key": "example.page",
+                "name": "Web Page",
+                "cssClass": "icon-page",
+                "description": "Embed a web page or web-based image in a resizeable window component. Can be added to Display Layouts. Note that the URL being embedded must allow iframing.",
+                "priority": 50,
+                "features": [
+                    "creation"
+                ],
+                "properties": [
+                    {
+                        "key": "url",
+                        "name": "URL",
+                        "control": "textfield",
+                        "pattern": "^(ftp|https?)\\:\\/\\/",
+                        "required": true,
+                        "cssClass": "l-input-lg"
+                    }
+                ]
+            }
+        ],
+        "views": [
+            {
+                "template": iframeTemplate,
+                "name": "Page",
+                "type": "example.page",
+                "key": "example.page",
+                "editable": false
+            }
+        ],
+        "controllers": [
+            {
+                "key": "EmbeddedPageController",
+                "implementation": EmbeddedPageController,
+                "depends": [
+                    "$sce"
+                ]
+            }
+        ]
+    }
 });

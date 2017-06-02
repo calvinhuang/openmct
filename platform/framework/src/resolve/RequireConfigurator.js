@@ -33,7 +33,12 @@ define(
          * @param requirejs an instance of RequireJS
          */
         function RequireConfigurator(requirejs) {
-            this.requirejs = requirejs;
+            // this.requirejs = requirejs;
+            this.requirejs = {
+                config: function(val) {
+                  console.log('requirejs.configure:', val);
+                }
+            };
         }
 
         // Utility function to clone part of a bundle definition
@@ -56,6 +61,7 @@ define(
                         bundle.getLibraryPath(configuration.paths[path]);
                 });
             }
+            console.log('RequireConfigurator.getConfiguration:', configuration);
 
             return configuration;
         }

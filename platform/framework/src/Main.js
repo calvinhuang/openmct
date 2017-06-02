@@ -27,45 +27,35 @@
  * and the wiring-together of the extensions they expose.
  * @namespace platform/framework
  */
-define(
-    [
-        'require',
-        'es6-promise',
-        './FrameworkLayer',
-        'angular',
-        'angular-route'
-    ],
-    function (
-        require,
-        es6promise,
-        FrameworkLayer,
-        angular
-    ) {
 
-        function Main() {
-        }
+import 'requirejs';
+import es6promise from 'es6-promise';
+import FrameworkLayer from './FrameworkLayer';
+import 'angular';
+import 'angular-route';
 
-        Main.prototype.run = function (legacyRegistry) {
-            // Get a reference to Angular's injector, so we can get $http and $log
-            // services, which are useful to the framework layer.
-            var injector = angular.injector(['ng']);
+function Main() {
+}
 
-            // Look up log level from query string
-            function logLevel() {
-                var match = /[?&]log=([a-z]+)/.exec(window.location.search);
-                return match ? match[1] : "";
-            }
+Main.prototype.run = function (legacyRegistry) {
+    // Get a reference to Angular's injector, so we can get $http and $log
+    // services, which are useful to the framework layer.
+    var injector = angular.injector(['ng']);
 
-            // Polyfill Promise, in case browser does not natively provide Promise
-            window.Promise = window.Promise || es6promise.Promise;
-
-            // Reconfigure base url, since bundle paths will all be relative
-            // to the root now.
-            requirejs.config({"baseUrl": ""});
-            injector.instantiate(['$http', '$log', FrameworkLayer])
-                .initializeApplication(angular, legacyRegistry, logLevel());
-        };
-
-        return Main;
+    // Look up log level from query string
+    function logLevel() {
+        var match = /[?&]log=([a-z]+)/.exec(window.location.search);
+        return match ? match[1] : "";
     }
-);
+
+    // Polyfill Promise, in case browser does not natively provide Promise
+    window.Promise = window.Promise || es6promise.Promise;
+
+    // Reconfigure base url, since bundle paths will all be relative
+    // to the root now.
+    requirejs.config({"baseUrl": ""});
+    injector.instantiate(['$http', '$log', FrameworkLayer])
+        .initializeApplication(angular, legacyRegistry, logLevel());
+};
+
+export default Main;

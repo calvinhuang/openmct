@@ -20,55 +20,45 @@
  * at runtime from the About dialog for additional information.
  *****************************************************************************/
 
-define([
-    "./src/CompositionPolicy",
-    "./src/CompositionMutabilityPolicy",
-    "./src/CompositionModelPolicy",
-    "./src/ComposeActionPolicy",
-    "./src/PersistableCompositionPolicy",
-    'legacyRegistry'
-], function (
-    CompositionPolicy,
-    CompositionMutabilityPolicy,
-    CompositionModelPolicy,
-    ComposeActionPolicy,
-    PersistableCompositionPolicy,
-    legacyRegistry
-) {
+import CompositionPolicy from './src/CompositionPolicy';
+import CompositionMutabilityPolicy from './src/CompositionMutabilityPolicy';
+import CompositionModelPolicy from './src/CompositionModelPolicy';
+import ComposeActionPolicy from './src/ComposeActionPolicy';
+import PersistableCompositionPolicy from './src/PersistableCompositionPolicy';
+import legacyRegistry from 'legacyRegistry';
 
-    legacyRegistry.register("platform/containment", {
-        "extensions": {
-            "policies": [
-                {
-                    "category": "composition",
-                    "implementation": CompositionPolicy,
-                    "message": "Objects of this type cannot contain objects of that type."
-                },
-                {
-                    "category": "composition",
-                    "implementation": CompositionMutabilityPolicy,
-                    "message": "Objects of this type cannot be modified."
-                },
-                {
-                    "category": "composition",
-                    "implementation": CompositionModelPolicy,
-                    "message": "Objects of this type cannot contain other objects."
-                },
-                {
-                    "category": "action",
-                    "implementation": ComposeActionPolicy,
-                    "depends": [
-                        "$injector"
-                    ],
-                    "message": "Objects of this type cannot contain objects of that type."
-                },
-                {
-                    "category": "composition",
-                    "implementation": PersistableCompositionPolicy,
-                    "depends": ["openmct"],
-                    "message": "Change cannot be made to composition of non-persistable object"
-                }
-            ]
-        }
-    });
+legacyRegistry.register("platform/containment", {
+    "extensions": {
+        "policies": [
+            {
+                "category": "composition",
+                "implementation": CompositionPolicy,
+                "message": "Objects of this type cannot contain objects of that type."
+            },
+            {
+                "category": "composition",
+                "implementation": CompositionMutabilityPolicy,
+                "message": "Objects of this type cannot be modified."
+            },
+            {
+                "category": "composition",
+                "implementation": CompositionModelPolicy,
+                "message": "Objects of this type cannot contain other objects."
+            },
+            {
+                "category": "action",
+                "implementation": ComposeActionPolicy,
+                "depends": [
+                    "$injector"
+                ],
+                "message": "Objects of this type cannot contain objects of that type."
+            },
+            {
+                "category": "composition",
+                "implementation": PersistableCompositionPolicy,
+                "depends": ["openmct"],
+                "message": "Change cannot be made to composition of non-persistable object"
+            }
+        ]
+    }
 });
