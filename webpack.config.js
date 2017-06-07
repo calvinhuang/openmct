@@ -1,4 +1,5 @@
 var path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
     context: __dirname,
@@ -9,11 +10,26 @@ module.exports = {
         library: "openmct",
         libraryTarget: "umd"
     },
-    loader: {
-      test: /\.js$/,
-      loader: 'babel',
-      exclude: /node_modules/
+    module: {
+        rules: [
+            {
+                test: /.js$/,
+                use: [
+                    { loader: 'babel-loader' }
+                ],
+            },
+            {
+                test: /.less$/,
+                loader: ExtractTextPlugin.extract({
+                        fallbackLoader: 'style-loader',
+                        loader: "css-loader!less-loader",
+                }),
+            },
+        ],
     },
+    plugins: [
+        new ExtractTextPlugin('styles.css'),
+    ],
     resolve: {
       modules: [
         "node_modules"
