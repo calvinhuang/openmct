@@ -99,4 +99,4 @@ openmct.on('start', function () {
     return new Main().run(defaultRegistry);
 });
 
-export default openmct;
+export { openmct, MCT };

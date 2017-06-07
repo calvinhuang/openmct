@@ -22,7 +22,6 @@
 
 import TreeView from '../ui/TreeView';
 import angular from 'angular';
-console.log('angular:', angular);
 
 function MCTTree(gestureService) {
     function link(scope, element) {

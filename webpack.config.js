@@ -2,10 +2,12 @@ var path = require('path');
 
 module.exports = {
     context: __dirname,
-    entry: "./index.js",
+    entry: "./openmct.js",
     output:{
         path: __dirname + "/dist",
-        filename: "bundle.js"
+        filename: "bundle.js",
+        library: "openmct",
+        libraryTarget: "umd"
     },
     loader: {
       test: /\.js$/,
