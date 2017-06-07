@@ -86,6 +86,7 @@
 //         }
 //     }
 // });
+console.log('OpenMCT openmct.js');
 
 import Main from './platform/framework/src/Main';
 import defaultRegistry from './src/defaultRegistry';

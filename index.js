@@ -1,4 +1,5 @@
 var THIRTY_MINUTES = 30 * 60 * 1000;
+console.log('OpenMCT index.js');
 import openmct from './openmct.js';
 
 [
