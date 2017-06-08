@@ -14,7 +14,7 @@ module.exports = {
         rules: [
             {
                 resource: {
-                  exclude: /(node_modules|bower_components)/,
+                  exclude: /^(node_modules|bower_components)/,
                   test: /.jsx?$/
                 },
                 use: [
@@ -23,7 +23,7 @@ module.exports = {
             },
             {
                 resource: {
-                    exclude: /(node_modules|bower_components)/,
+                    exclude: /^(node_modules|bower_components)/,
                     test: /.css$/
                 },
                 use: ExtractTextPlugin.extract({
@@ -33,18 +33,22 @@ module.exports = {
             },
             {
                 resource: {
-                    exclude: /(node_modules|bower_components)/,
+                    exclude: /^(node_modules|bower_components)/,
                     test: /.scss$/
                 },
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: 'css-loader!sass-loader',
+                    // options: {
+                    //     sourceMap: true
+                    // }
                 }),
             },
         ],
     },
+    devtool: "source-map",
     plugins: [
-        new ExtractTextPlugin('styles.css'),
+        new ExtractTextPlugin('[name].css'),
     ],
     resolve: {
       modules: [

@@ -88,6 +88,8 @@
 // });
 console.log('OpenMCT openmct.js');
 
+import css from './openmct.css';
+
 import Main from './platform/framework/src/Main';
 import defaultRegistry from './src/defaultRegistry';
 import MCT from './src/MCT';
