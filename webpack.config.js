@@ -13,16 +13,32 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.js$/,
+                resource: {
+                  exclude: /(node_modules|bower_components)/,
+                  test: /.jsx?$/
+                },
                 use: [
                     { loader: 'babel-loader' }
                 ],
             },
             {
-                test: /.less$/,
-                loader: ExtractTextPlugin.extract({
-                        fallbackLoader: 'style-loader',
-                        loader: "css-loader!less-loader",
+                resource: {
+                    exclude: /(node_modules|bower_components)/,
+                    test: /.css$/
+                },
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader',
+                }),
+            },
+            {
+                resource: {
+                    exclude: /(node_modules|bower_components)/,
+                    test: /.scss$/
+                },
+                use: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: 'css-loader!sass-loader',
                 }),
             },
         ],
